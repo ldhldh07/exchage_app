@@ -2,22 +2,24 @@
   "name": "exchange-practice",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "5.2.2",
+    "@tailwindcss/postcss": "4.1.18",
     "@tanstack/react-query": "^5.64.2",
     "axios": "1.13.2",
     "clsx": "^2.1.1",
     "jotai": "^2.11.1",
     "lucide-react": "0.562.0",
+    "next": "16.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.1.3",
+    "react-hook-form": "7.71.1",
     "tailwind-merge": "^2.6.0",
     "zod": "^3.24.1"
   },
@@ -25,19 +27,10 @@
     "@types/node": "25.0.8",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.18.0",
-    "eslint-config-prettier": "10.1.8",
-    "eslint-plugin-boundaries": "5.3.1",
-    "eslint-plugin-import": "2.32.0",
-    "eslint-plugin-prettier": "5.5.4",
-    "eslint-plugin-react": "7.37.5",
-    "eslint-plugin-react-hooks": "^5.1.0",
-    "eslint-plugin-react-refresh": "^0.4.18",
-    "globals": "^15.14.0",
+    "eslint-config-next": "16.1.2",
     "prettier": "3.7.4",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.20.0",
-    "vite": "^6.0.7"
+    "tailwindcss": "4.1.18",
+    "typescript": "^5.7.3"
   }
 }
