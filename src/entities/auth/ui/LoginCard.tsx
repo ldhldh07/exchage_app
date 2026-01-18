@@ -34,12 +34,12 @@ export const LoginInput = forwardRef<HTMLInputElement, Readonly<LoginInputProps>
   ({ label, error, ...inputProps }, ref) => {
     return (
       <div className="w-[496px] text-left">
-        <label className="block text-[20px] leading-[1.33] font-medium text-brand-600 mb-[10px]">
+        <label className="block text-xl leading-[1.33] font-medium text-brand-600 mb-[10px]">
           {label}
         </label>
         <input
           ref={ref}
-          className="w-full h-[75px] border border-brand-700 bg-white text-[20px] leading-[1.33] font-semibold text-brand-600 outline-none transition-all placeholder:text-brand-600 focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/15 disabled:bg-gray-50 disabled:cursor-not-allowed"
+          className="w-full h-[75px] border border-brand-700 bg-white text-xl leading-[1.33] font-semibold text-brand-600 outline-none transition-all placeholder:text-brand-600 focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/15 disabled:bg-gray-50 disabled:cursor-not-allowed"
           style={{ padding: "24px", borderRadius: "12px" }}
           {...inputProps}
         />

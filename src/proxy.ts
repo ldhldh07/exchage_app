@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { ROUTES } from "@/shared/config";
 
-const PUBLIC_PATHS = ["/login"];
+const PUBLIC_PATHS = [ROUTES.login];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -13,7 +14,7 @@ export function proxy(request: NextRequest) {
   const token = request.cookies.get("accessToken")?.value;
 
   if (!token) {
-    const loginUrl = new URL("/login", request.url);
+    const loginUrl = new URL(ROUTES.login, request.url);
     return NextResponse.redirect(loginUrl);
   }
 

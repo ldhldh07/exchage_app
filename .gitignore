@@ -126,3 +126,4 @@ Thumbs.db
 /dist
 /docs
 .vercel
+.vscode

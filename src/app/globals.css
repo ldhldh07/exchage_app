@@ -1,18 +1,64 @@
 @import "tailwindcss";
 
 @theme {
+  
+  --text-title: 48px;
+  --text-title--line-height: 1.33;
+  --text-subtitle: 32px;
+  --text-subtitle--line-height: 1.33;
+  --text-button: 22px;
+  --text-button--line-height: 1.33;
+
   --color-brand-700: #374553;
   --color-brand-600: #646f7c;
+  
   --color-cta: #1b2334;
+  --color-cta-pressed: ##36414C;
+  --color-cta-second-pressed: #F7F8FA;
 
-  --text-title: 48px;
-  --text-subtitle: 32px;
-  --text-button: 22px;
+  
+  --color-gray-800: #28323C;
+  --color-gray-700: #374553;
+  --color-gray-600: #646F7C;
+  --color-gray-300: #D0D6DB;
+  --color-gray-100: #F1F2F4;
+  --color-gray-000: #F7F8F9;
 
-  --leading-title: 1.33;
-  --leading-subtitle: 1.33;
-  --leading-button: 1.33;
+  --color-blue-500: #3479EB;
+  --color-red-500: #FE5050;
 
+  --text-page-title: 40px;
+  --text-page-title--line-height: 1.33;
+  --text-page-title--font-weight: 700;
+
+  --text-page-subtitle: 16px;
+  --text-page-subtitle--line-height: 1.33;
+  --text-page-subtitle--font-weight: 400;
+
+  --text-h2: 24px;
+  --text-h2--line-height: 1.33;
+  --text-h2--font-weight: 800;  
+  
+  --text-h3: 24px;
+  --text-h3--line-height: 1.33;
+  --text-h3--font-weight: 700;
+
+  --text-h4: 20px;
+  --text-h4--line-height: 1.33;
+  --text-h4--font-weight: 600;
+
+  --text-h5: 16px;
+  --text-h5--line-height: 1.33;
+  --text-h5--font-weight: 400;
+
+  --text-p1: 14px;
+  --text-p1--line-height: 1.5;
+  --text-p1--font-weight: 500;
+  
+  --text-label: 20px;
+  --text-lebel--line-height: 1.33;
+  --text-label--font-weight: 500;
+  
   --radius-card: 12px;
 
   --spacing-page-x: 200px;
@@ -32,3 +78,4 @@ body {
   color: var(--color-brand-700);
   background-color: #ffffff;
 }
+

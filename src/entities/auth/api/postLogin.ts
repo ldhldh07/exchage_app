@@ -1,3 +1,4 @@
+import { API_ENDPOINTS } from "@/shared/config";
 import type { LoginFormData } from "../models/auth.schema";
 
 export interface LoginResponse {
@@ -21,7 +22,7 @@ export async function postLogin(
   const params = new URLSearchParams();
   params.append("email", formData.email);
 
-  const response = await fetch("https://exchange-example.switchflow.biz/auth/login", {
+  const response = await fetch(API_ENDPOINTS.auth.login, {
     method: "POST",
     body: params,
     headers: {
