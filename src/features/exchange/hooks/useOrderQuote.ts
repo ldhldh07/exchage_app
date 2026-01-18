@@ -39,6 +39,10 @@ export const useOrderQuote = (formState: ExchangeFormData) => {
     prevOrderTypeRef.current = orderType;
   }
 
+  if (quoteParams === null) {
+    lastQuoteRef.current = null;
+  }
+
   const query = useQuery({
     queryKey: orderQuoteKeys.quote(orderType, quoteParams!),
     queryFn: () => getOrderQuote(quoteParams!),
