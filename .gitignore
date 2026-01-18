@@ -122,7 +122,3 @@ dist
 # System Files
 .DS_Store
 Thumbs.db
-
-/dist
-/docs
-.vercel
