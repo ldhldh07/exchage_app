@@ -1,6 +1,6 @@
 import { formatRate, formatPercentage } from "@/shared/lib";
 import { ArrowUpIcon, ArrowDownIcon } from "@/shared/ui";
-import type { ExchangeRateResponse, Currency } from "../models/exchange-rate.schema";
+import type { ExchangeRateItem, Currency } from "../models/exchange-rate.type";
 
 const CURRENCY_LABELS: Record<Currency, { name: string }> = {
   USD: { name: "미국 달러" },
@@ -9,21 +9,21 @@ const CURRENCY_LABELS: Record<Currency, { name: string }> = {
 };
 
 interface ExchangeRateCardListProps {
-  rates: ExchangeRateResponse[];
+  rates: ExchangeRateItem[];
 }
 
 export function ExchangeRateCardList({ rates }: Readonly<ExchangeRateCardListProps>) {
   return (
     <div className="flex gap-5">
       {rates.map((rate) => (
-        <ExchangeRateCard key={rate.exchangeRateId} rate={rate} />
+        <ExchangeRateCard key={rate.id} rate={rate} />
       ))}
     </div>
   );
 }
 
 interface ExchangeRateCardProps {
-  rate: ExchangeRateResponse;
+  rate: ExchangeRateItem;
 }
 
 export function ExchangeRateCard({ rate }: Readonly<ExchangeRateCardProps>) {

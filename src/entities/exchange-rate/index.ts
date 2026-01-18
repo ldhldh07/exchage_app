@@ -1,12 +1,14 @@
-// Models
+// Schema 
 export {
   CurrencySchema,
   ExchangeRateResponseSchema,
   ExchangeRateListResponseSchema,
-  type Currency,
   type ExchangeRateResponse,
   type ExchangeRateListResponse,
 } from "./models/exchange-rate.schema";
+
+// Types 
+export type { Currency, ExchangeRateItem } from "./models/exchange-rate.type";
 
 // API
 export { getExchangeRates } from "./api/getExchangeRates";

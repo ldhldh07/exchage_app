@@ -18,14 +18,5 @@ export function WalletInfo() {
     );
   }
 
-  const walletCardData = {
-    wallets: data.data.wallets.map((wallet) => ({
-      id: wallet.walletId,
-      currency: wallet.currency,
-      balance: wallet.balance,
-    })),
-    totalKrwBalance: data.data.totalKrwBalance,
-  };
-
-  return <WalletCard data={walletCardData} />;
+  return <WalletCard data={data.data} />;
 }

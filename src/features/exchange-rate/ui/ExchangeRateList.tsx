@@ -10,7 +10,7 @@ export function ExchangeRateList() {
     return <Loader />;
   }
 
-  if (!data?.success) {
+  if (!data?.success || !data.data) {
     return (
       <div className="text-center py-8 text-red-500">
         {data?.error || "환율 정보를 불러오는데 실패했습니다."}
@@ -18,7 +18,5 @@ export function ExchangeRateList() {
     );
   }
 
-  const foreignRates = data.data?.filter((rate) => rate.currency !== "KRW") ?? [];
-
-  return <ExchangeRateCardList rates={foreignRates} />;
+  return <ExchangeRateCardList rates={data.data} />;
 }
