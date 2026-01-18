@@ -8,6 +8,7 @@ export {
   getCurrencyUnit,
   getCurrencySymbol,
   getCurrencyFlag,
+  getCurrencyMinAmount,
   type Currency,
   type CurrencyInfo,
 } from "./currency";

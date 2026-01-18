@@ -36,7 +36,7 @@ function ToggleButton({ type, isSelected, disabled, onClick }: Readonly<ToggleBu
   const label = isBuy ? "살래요" : "팔래요";
 
   const selectedClass = isBuy
-    ? "bg-[#FE5050] text-white"
+    ? "bg-red-500 text-white"
     : "bg-blue-500 text-white";
   const unselectedClass = isBuy
     ? "bg-white text-[#FFA7A7] hover:bg-gray-50"

@@ -9,6 +9,7 @@ export interface CurrencyInfo {
   unit: string; 
   symbol: string;   
   flag: ComponentType<SVGProps<SVGSVGElement> & { size?: number }> | null;
+  minAmount: number;
 }
 
 export const CURRENCY_INFO: Record<Currency, CurrencyInfo> = {
@@ -18,6 +19,7 @@ export const CURRENCY_INFO: Record<Currency, CurrencyInfo> = {
     unit: "달러",
     symbol: "$",
     flag: USFlag,
+    minAmount: 1,
   },
   JPY: {
     code: "JPY",
@@ -25,13 +27,15 @@ export const CURRENCY_INFO: Record<Currency, CurrencyInfo> = {
     unit: "엔",
     symbol: "¥",
     flag: JPFlag,
+    minAmount: 100,
   },
   KRW: {
     code: "KRW",
     name: "대한민국",
-    unit : "원",
+    unit: "원",
     symbol: "₩",
     flag: null,
+    minAmount: 1,
   },
 };
 
@@ -57,4 +61,8 @@ export const getCurrencySymbol = (currency: Currency): string => {
 
 export const getCurrencyFlag = (currency: Currency) => {
   return CURRENCY_INFO[currency].flag;
+};
+
+export const getCurrencyMinAmount = (currency: Currency): number => {
+  return CURRENCY_INFO[currency].minAmount;
 };

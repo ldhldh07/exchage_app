@@ -16,3 +16,7 @@ export const formatBalance = (value: number) => {
     maximumFractionDigits: 3,
   });
 };
+
+export const formatKrw = (value: number) => {
+  return value.toLocaleString("ko-KR");
+};

@@ -20,9 +20,11 @@
   --color-gray-700: #374553;
   --color-gray-600: #646F7C;
   --color-gray-300: #D0D6DB;
+  --color-gray-100: #F1F2F4;
   --color-gray-000: #F7F8F9;
 
   --color-blue-500: #3479EB;
+  --color-red-500: #FE5050;
 
   --text-page-title: 40px;
   --text-page-title--line-height: 1.33;
@@ -51,7 +53,11 @@
   --text-p1: 14px;
   --text-p1--line-height: 1.5;
   --text-p1--font-weight: 500;
-
+  
+  --text-label: 20px;
+  --text-lebel--line-height: 1.33;
+  --text-label--font-weight: 500;
+  
   --radius-card: 12px;
 
   --spacing-page-x: 200px;

@@ -14,4 +14,4 @@ export {
   type ApiErrorCode,
   type DomainErrorCode,
 } from "./errors";
-export { formatRate, formatPercentage, formatBalance } from "./format";
+export { formatRate, formatPercentage, formatBalance, formatKrw } from "./format";

@@ -1,21 +1,29 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { getOrderQuote, type OrderQuoteRequest } from "@/entities/order";
-import type { ExchangeFormState } from "./useExchangeForm";
+import { getCurrencyMinAmount } from "@/shared/config";
+import type { ExchangeFormData, OrderType } from "./useExchangeForm";
 
 export const orderQuoteKeys = {
   all: ["order-quote"] as const,
-  quote: (params: OrderQuoteRequest) => [...orderQuoteKeys.all, params] as const,
+  byOrderType: (orderType: OrderType) => [...orderQuoteKeys.all, orderType] as const,
+  quote: (orderType: OrderType, params: OrderQuoteRequest) => 
+    [...orderQuoteKeys.byOrderType(orderType), params] as const,
 };
 
-export const useOrderQuote = (formState: ExchangeFormState) => {
+export const useOrderQuote = (formState: ExchangeFormData) => {
   const { currency, orderType, amount } = formState;
+  
+  const prevOrderTypeRef = useRef(orderType);
+  const lastQuoteRef = useRef<{ krwAmount: number; appliedRate: number } | null>(null);
+
+  const minAmount = getCurrencyMinAmount(currency);
 
   const quoteParams: OrderQuoteRequest | null = useMemo(() => {
     const numAmount = parseFloat(amount);
-    if (!amount || isNaN(numAmount) || numAmount <= 0) {
+    if (!amount || isNaN(numAmount) || numAmount < minAmount) {
       return null;
     }
 
@@ -24,17 +32,35 @@ export const useOrderQuote = (formState: ExchangeFormState) => {
       toCurrency: orderType === "buy" ? currency : "KRW",
       forexAmount: numAmount,
     };
-  }, [currency, orderType, amount]);
+  }, [currency, orderType, amount, minAmount]);
+
+  if (prevOrderTypeRef.current !== orderType) {
+    lastQuoteRef.current = null;
+    prevOrderTypeRef.current = orderType;
+  }
 
   const query = useQuery({
-    queryKey: orderQuoteKeys.quote(quoteParams!),
+    queryKey: orderQuoteKeys.quote(orderType, quoteParams!),
     queryFn: () => getOrderQuote(quoteParams!),
     enabled: quoteParams !== null,
     staleTime: 1000 * 30, // 30초
+    placeholderData: () => {
+      if (lastQuoteRef.current) {
+        return { success: true, data: lastQuoteRef.current };
+      }
+      return undefined;
+    },
   });
 
+  const currentQuote = query.data?.success ? query.data.data : null;
+  if (currentQuote) {
+    lastQuoteRef.current = currentQuote;
+  }
+
+  const quote = quoteParams === null ? null : currentQuote;
+
   return {
-    quote: query.data?.success ? query.data.data : null,
+    quote,
     isLoading: query.isLoading,
     error: query.data?.error || (query.error ? "견적 조회 실패" : null),
   };

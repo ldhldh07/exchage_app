@@ -9,7 +9,7 @@ interface ExchangeRateCardListProps {
 
 export function ExchangeRateCardList({ rates }: Readonly<ExchangeRateCardListProps>) {
   return (
-    <div className="flex gap-5">
+    <div className="flex md:flex-row flex-col gap-5">
       {rates.map((rate) => (
         <ExchangeRateCard key={rate.id} rate={rate} />
       ))}
@@ -33,14 +33,14 @@ export function ExchangeRateCard({ rate }: Readonly<ExchangeRateCardProps>) {
             {formatRate(rate.rate)} KRW
           </p>
           <p
-            className={`flex items-center gap-1 text-[16px] font-normal ${isPositive ? "text-[#FE5050]" : "text-[#3B6EFF]"}`}
+            className={`flex items-center gap-1 text-[16px] font-normal ${isPositive ? "text-red-500" : "text-[#3B6EFF]"}`}
           >
             {isPositive ? <ArrowUpIcon /> : <ArrowDownIcon />}
             {formatPercentage(rate.changePercentage)}
           </p>
         </div>
       </div>
-      <span className="text-h5 text-gray-600">{getCurrencyName(rate.currency)}</span>
+      <span className="text-h5 text-gray-600 whitespace-nowrap">{getCurrencyName(rate.currency)}</span>
     </div>
   );
 }
