@@ -11,8 +11,9 @@ export const API_ENDPOINTS = {
     getWallets: `${API_BASE_URL}/wallets`,
     balance: (memberId: number) => `${API_BASE_URL}/wallet/${memberId}/balance`,
   },
-  exchange: {
-    create: `${API_BASE_URL}/exchange`,
-    history: (memberId: number) => `${API_BASE_URL}/exchange/${memberId}`,
+  order: {
+    getOrders: `${API_BASE_URL}/orders`,
+    getQuote: `${API_BASE_URL}/orders/quote`,
+    create: `${API_BASE_URL}/orders`,
   },
 } as const;
