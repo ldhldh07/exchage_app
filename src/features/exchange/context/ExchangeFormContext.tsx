@@ -30,6 +30,7 @@ interface ExchangeFormState {
   isPending: boolean;
   success: boolean;
   serverError: string | null;
+  retryCount: number;
   currentRate?: number;
 }
 
@@ -112,7 +113,7 @@ export function ExchangeFormProvider({ children }: Readonly<ExchangeFormProvider
 
   const { quote, isLoading: isQuoteLoading } = useOrderQuote(formState);
 
-  const { submit, isPending, success, serverError, getRateForCurrency } = useExchangeSubmit({
+  const { submit, isPending, success, serverError, retryCount, getRateForCurrency } = useExchangeSubmit({
     formState,
     quote,
     onSuccess: reset,
@@ -156,6 +157,7 @@ export function ExchangeFormProvider({ children }: Readonly<ExchangeFormProvider
     isPending,
     success,
     serverError,
+    retryCount,
     currentRate,
   };
 

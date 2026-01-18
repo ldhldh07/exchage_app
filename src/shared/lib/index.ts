@@ -15,5 +15,4 @@ export {
   type DomainErrorCode,
 } from "./errors";
 export { formatRate, formatPercentage, formatBalance, formatKrw } from "./format";
-// fetchWithAuth는 Server Action 전용이므로 직접 import 필요
-// import { fetchWithAuth } from "@/shared/lib/fetchWithAuth";
+export { withRetry, withRetryResult } from "./retry";
