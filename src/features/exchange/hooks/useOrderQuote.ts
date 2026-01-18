@@ -3,8 +3,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useRef } from "react";
 import { getOrderQuote, type OrderQuoteRequest } from "@/entities/order";
-import { getCurrencyMinAmount } from "@/shared/config";
-import type { ExchangeFormData, OrderType } from "./useExchangeForm";
+import { getCurrencyMinAmount, type OrderType } from "@/shared/config";
+import type { ExchangeFormData } from "./useExchangeForm";
 
 export const orderQuoteKeys = {
   all: ["order-quote"] as const,
@@ -39,9 +39,7 @@ export const useOrderQuote = (formState: ExchangeFormData) => {
     prevOrderTypeRef.current = orderType;
   }
 
-  if (quoteParams === null) {
-    lastQuoteRef.current = null;
-  }
+  if (quoteParams === null) lastQuoteRef.current = null;
 
   const query = useQuery({
     queryKey: orderQuoteKeys.quote(orderType, quoteParams!),

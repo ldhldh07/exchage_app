@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { getCurrencyMinAmount, type Currency } from "@/shared/config";
+import { getCurrencyMinAmount, type Currency, type OrderType } from "@/shared/config";
 
 const exchangeFormSchema = z
   .object({
@@ -34,18 +34,22 @@ const exchangeFormSchema = z
   });
 
 export type ExchangeFormData = z.infer<typeof exchangeFormSchema>;
-export type OrderType = "buy" | "sell";
 
-const defaultValues: ExchangeFormData = {
-  currency: "USD",
-  orderType: "buy",
-  amount: "",
-};
+interface UseExchangeFormOptions {
+  initialCurrency?: Currency;
+  initialOrderType?: OrderType;
+}
 
-export const useExchangeForm = () => {
+export const useExchangeForm = (options?: UseExchangeFormOptions) => {
+  const { initialCurrency = "USD", initialOrderType = "buy" } = options || {};
+
   const form = useForm<ExchangeFormData>({
     resolver: zodResolver(exchangeFormSchema),
-    defaultValues,
+    defaultValues: {
+      currency: initialCurrency,
+      orderType: initialOrderType,
+      amount: "",
+    },
     mode: "onChange",
   });
 

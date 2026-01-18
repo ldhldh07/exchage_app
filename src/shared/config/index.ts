@@ -9,6 +9,13 @@ export {
   getCurrencySymbol,
   getCurrencyFlag,
   getCurrencyMinAmount,
+  validateCurrency,
   type Currency,
   type CurrencyInfo,
 } from "./currency";
+export {
+  ORDER_TYPES,
+  DEFAULT_ORDER_TYPE,
+  validateOrderType,
+  type OrderType,
+} from "./order";

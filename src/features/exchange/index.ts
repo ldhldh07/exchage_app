@@ -14,11 +14,7 @@ export {
 } from "./context/ExchangeFormContext";
 
 // Hooks
-export {
-  useExchangeForm,
-  type ExchangeFormData,
-  type OrderType,
-} from "./hooks/useExchangeForm";
+export { useExchangeForm, type ExchangeFormData } from "./hooks/useExchangeForm";
 export { useOrderQuote, orderQuoteKeys } from "./hooks/useOrderQuote";
 export { useExchangeSubmit } from "./hooks/useExchangeSubmit";
 
