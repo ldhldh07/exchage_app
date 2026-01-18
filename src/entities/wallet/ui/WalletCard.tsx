@@ -1,0 +1,54 @@
+import { formatBalance } from "@/shared/lib";
+import type { Currency, WalletItem, WalletCardData } from "../models/wallet.type";
+
+const CURRENCY_SYMBOLS: Record<Currency, string> = {
+  KRW: "₩",
+  USD: "$",
+  JPY: "¥",
+};
+
+interface WalletCardProps {
+  data: WalletCardData;
+}
+
+export function WalletCard({ data }: Readonly<WalletCardProps>) {
+  return (
+    <div className="flex flex-col w-[628px] min-h-[508px] bg-gray-000 border border-gray-300 rounded-xl py-6 px-8 gap-8">
+      <h2 className="text-h2 text-gray-800">내 지갑</h2>
+
+      <div className="flex flex-col flex-1 justify-between">
+        <div className="flex flex-col flex-1">
+          {data.wallets.map((wallet) => (
+            <WalletRow key={wallet.id} wallet={wallet} />
+          ))}
+        </div>
+        <div className="flex flex-col gap-3">
+          <div className="border-t border-gray-300" />
+          <div className="flex items-center justify-between">
+            <span className="text-gray-600 text-[20px] font-medium">총 보유 자산</span>
+            <span className="text-blue-500 font-bold text-[20px]">
+              ₩ {data.totalKrwBalance.toLocaleString("ko-KR")}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+interface WalletRowProps {
+  wallet: WalletItem;
+}
+
+function WalletRow({ wallet }: Readonly<WalletRowProps>) {
+  const symbol = CURRENCY_SYMBOLS[wallet.currency];
+
+  return (
+    <div className="flex items-center justify-between gap-3 text-gray-600 text-[20px]">
+      <span className="font-medium">{wallet.currency}</span>
+      <span className="font-semibold">
+        {symbol} {formatBalance(wallet.balance, wallet.currency === "KRW")}
+      </span>
+    </div>
+  );
+}

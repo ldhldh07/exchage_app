@@ -15,6 +15,9 @@
   --color-gray-700: #374553;
   --color-gray-600: #646F7C;
   --color-gray-300: #D0D6DB;
+  --color-gray-000: #F7F8F9;
+
+  --color-blue-500: #3479EB;
 
   --text-page-title: 40px;
   --text-page-title--line-height: 1.33;
@@ -23,6 +26,10 @@
   --text-page-subtitle: 16px;
   --text-page-subtitle--line-height: 1.33;
   --text-page-subtitle--font-weight: 400;
+
+  --text-h2: 24px;
+  --text-h2--line-height: 1.33;
+  --text-h2--font-weight: 800;  
   
   --text-h3: 24px;
   --text-h3--line-height: 1.33;

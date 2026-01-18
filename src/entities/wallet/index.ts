@@ -1,4 +1,4 @@
-// Models
+// Schema (API 레이어)
 export {
   WalletResponseSchema,
   WalletSummaryResponseSchema,
@@ -8,6 +8,9 @@ export {
   type WalletApiResponse,
 } from "./models/wallet.schema";
 
+// Types
+export type { Currency, WalletItem, WalletCardData } from "./models/wallet.type";
+
 // API
 export { getWallets } from "./api/getWallets";
 
@@ -15,5 +18,4 @@ export { getWallets } from "./api/getWallets";
 export { useWallets, walletKeys } from "./hooks/useWallets";
 
 // UI
-export { WalletRow } from "./ui/WalletRow";
 export { WalletCard } from "./ui/WalletCard";

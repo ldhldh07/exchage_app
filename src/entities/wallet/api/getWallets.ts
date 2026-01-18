@@ -2,7 +2,7 @@
 
 import { API_ENDPOINTS } from "@/shared/config";
 import { getAuthToken } from "@/shared/lib/auth";
-import { WalletApiResponseSchema, type WalletSummaryResponse } from "../models/schema";
+import { WalletApiResponseSchema, type WalletSummaryResponse } from "../models/wallet.schema";
 
 interface GetWalletsResult {
   success: boolean;
