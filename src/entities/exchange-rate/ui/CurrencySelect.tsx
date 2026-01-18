@@ -20,7 +20,7 @@ export const CurrencySelect = forwardRef<HTMLDivElement, CurrencySelectProps>(
     const FlagComponent = currentInfo.flag;
 
     return (
-      <div className="relative mb-6" ref={ref}>
+      <div className="relative" ref={ref}>
         <button
           type="button"
           onClick={onToggle}
