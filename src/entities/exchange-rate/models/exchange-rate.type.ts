@@ -1,4 +1,6 @@
-export type Currency = "KRW" | "USD" | "JPY";
+import type { Currency } from "@/shared/config/currency";
+
+export type { Currency };
 
 export interface ExchangeRateItem {
   id: number;

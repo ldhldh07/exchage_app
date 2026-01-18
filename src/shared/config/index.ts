@@ -5,8 +5,9 @@ export {
   EXCHANGEABLE_CURRENCIES,
   getCurrencyInfo,
   getCurrencyName,
-  getCurrencyShortName,
+  getCurrencyUnit,
   getCurrencySymbol,
   getCurrencyFlag,
+  type Currency,
   type CurrencyInfo,
 } from "./currency";

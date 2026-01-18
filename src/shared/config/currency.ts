@@ -1,40 +1,37 @@
 import { USFlag, JPFlag } from "@/shared/ui";
-import type { Currency } from "@/entities/exchange-rate";
 import type { ComponentType, SVGProps } from "react";
+
+export type Currency = "KRW" | "USD" | "JPY";
 
 export interface CurrencyInfo {
   code: Currency;
   name: string;        
-  shortName: string; 
+  unit: string; 
   symbol: string;   
   flag: ComponentType<SVGProps<SVGSVGElement> & { size?: number }> | null;
-  label: string;  
 }
 
 export const CURRENCY_INFO: Record<Currency, CurrencyInfo> = {
   USD: {
     code: "USD",
-    name: "미국 달러",
-    shortName: "달러",
+    name: "미국",
+    unit: "달러",
     symbol: "$",
     flag: USFlag,
-    label: "미국 USD",
   },
   JPY: {
     code: "JPY",
-    name: "일본 엔화",
-    shortName: "엔",
+    name: "일본",
+    unit: "엔",
     symbol: "¥",
     flag: JPFlag,
-    label: "일본 JPY",
   },
   KRW: {
     code: "KRW",
-    name: "대한민국 원",
-    shortName: "원",
+    name: "대한민국",
+    unit : "원",
     symbol: "₩",
     flag: null,
-    label: "한국 KRW",
   },
 };
 
@@ -50,8 +47,8 @@ export const getCurrencyName = (currency: Currency): string => {
   return CURRENCY_INFO[currency].name;
 };
 
-export const getCurrencyShortName = (currency: Currency): string => {
-  return CURRENCY_INFO[currency].shortName;
+export const getCurrencyUnit = (currency: Currency): string => {
+  return CURRENCY_INFO[currency].unit;
 };
 
 export const getCurrencySymbol = (currency: Currency): string => {

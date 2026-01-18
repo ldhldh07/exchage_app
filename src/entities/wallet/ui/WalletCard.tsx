@@ -21,8 +21,8 @@ export function WalletCard({ data }: Readonly<WalletCardProps>) {
         <div className="flex flex-col gap-3">
           <div className="border-t border-gray-300" />
           <div className="flex items-center justify-between">
-            <span className="text-gray-600 text-[20px] font-medium">총 보유 자산</span>
-            <span className="text-blue-500 font-bold text-[20px]">
+            <span className="text-gray-600 text-xl font-medium">총 보유 자산</span>
+            <span className="text-blue-500 font-bold text-xl">
               ₩ {data.totalKrwBalance.toLocaleString("ko-KR")}
             </span>
           </div>
@@ -40,10 +40,10 @@ function WalletRow({ wallet }: Readonly<WalletRowProps>) {
   const symbol = getCurrencySymbol(wallet.currency);
 
   return (
-    <div className="flex items-center justify-between gap-3 text-gray-600 text-[20px]">
+    <div className="flex items-center justify-between gap-3 text-gray-600 text-xl">
       <span className="font-medium">{wallet.currency}</span>
       <span className="font-semibold">
-        {symbol} {formatBalance(wallet.balance, wallet.currency === "KRW")}
+        {symbol} {formatBalance(wallet.balance)}
       </span>
     </div>
   );

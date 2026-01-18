@@ -1,16 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-700: #374553;
-  --color-brand-600: #646f7c;
-  --color-cta: #1b2334;
-
+  
   --text-title: 48px;
   --text-title--line-height: 1.33;
   --text-subtitle: 32px;
   --text-subtitle--line-height: 1.33;
   --text-button: 22px;
   --text-button--line-height: 1.33;
+
+  --color-brand-700: #374553;
+  --color-brand-600: #646f7c;
+  
+  --color-cta: #1b2334;
+  --color-cta-pressed: ##36414C;
+  --color-cta-second-pressed: #F7F8FA;
+  
   --color-gray-800: #28323C;
   --color-gray-700: #374553;
   --color-gray-600: #646F7C;
@@ -42,6 +47,10 @@
   --text-h5: 16px;
   --text-h5--line-height: 1.33;
   --text-h5--font-weight: 400;
+
+  --text-p1: 14px;
+  --text-p1--line-height: 1.5;
+  --text-p1--font-weight: 500;
 
   --radius-card: 12px;
 
