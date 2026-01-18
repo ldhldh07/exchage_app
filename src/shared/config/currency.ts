@@ -66,3 +66,10 @@ export const getCurrencyFlag = (currency: Currency) => {
 export const getCurrencyMinAmount = (currency: Currency): number => {
   return CURRENCY_INFO[currency].minAmount;
 };
+
+export const validateCurrency = (value: string | null): Currency | null => {
+  if (value && EXCHANGEABLE_CURRENCIES.includes(value as Currency)) {
+    return value as Currency;
+  }
+  return null;
+};

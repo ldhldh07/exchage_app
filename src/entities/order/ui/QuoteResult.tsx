@@ -10,7 +10,7 @@ export function QuoteResult({ orderType, quote }: Readonly<QuoteResultProps>) {
   const isBuy = orderType === "buy";
 
   return (
-    <div className="flex flex-col gap-3 mb-[80px]">
+    <div className="flex flex-col gap-3 mb-page-bottom">
       <div className="text-label text-gray-600">필요 원화</div>
       <div className="bg-gray-100 h-[75px] flex items-center border border-gray-500 rounded-xl p-6">
         {quote ? (

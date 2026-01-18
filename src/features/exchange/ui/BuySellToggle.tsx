@@ -1,7 +1,7 @@
 "use client";
 
 import { useExchangeFormContext } from "../context/ExchangeFormContext";
-import type { OrderType } from "../hooks/useExchangeForm";
+import type { OrderType } from "@/shared/config";
 
 export function BuySellToggle() {
   const { formState, setOrderType, isPending } = useExchangeFormContext();

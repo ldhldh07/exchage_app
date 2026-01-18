@@ -3,32 +3,53 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import type { Currency } from "@/entities/exchange-rate";
+import { getCurrencyMinAmount, type Currency, type OrderType } from "@/shared/config";
 
-const exchangeFormSchema = z.object({
-  currency: z.enum(["USD", "JPY", "KRW"]),
-  orderType: z.enum(["buy", "sell"]),
-  amount: z
-    .string()
-    .min(1, "금액을 입력해주세요")
-    .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-      message: "0보다 큰 금액을 입력해주세요",
-    }),
-});
+const exchangeFormSchema = z
+  .object({
+    currency: z.enum(["USD", "JPY", "KRW"]),
+    orderType: z.enum(["buy", "sell"]),
+    amount: z.string().min(1, "금액을 입력해주세요"),
+  })
+  .superRefine((data, ctx) => {
+    const numAmount = Number(data.amount);
+    
+    if (isNaN(numAmount) || numAmount <= 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "0보다 큰 금액을 입력해주세요",
+        path: ["amount"],
+      });
+      return;
+    }
+
+    const minAmount = getCurrencyMinAmount(data.currency);
+    if (numAmount < minAmount) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `${data.currency}는 최소 ${minAmount} 이상 입력해주세요`,
+        path: ["amount"],
+      });
+    }
+  });
 
 export type ExchangeFormData = z.infer<typeof exchangeFormSchema>;
-export type OrderType = "buy" | "sell";
 
-const defaultValues: ExchangeFormData = {
-  currency: "USD",
-  orderType: "buy",
-  amount: "",
-};
+interface UseExchangeFormOptions {
+  initialCurrency?: Currency;
+  initialOrderType?: OrderType;
+}
 
-export const useExchangeForm = () => {
+export const useExchangeForm = (options?: UseExchangeFormOptions) => {
+  const { initialCurrency = "USD", initialOrderType = "buy" } = options || {};
+
   const form = useForm<ExchangeFormData>({
     resolver: zodResolver(exchangeFormSchema),
-    defaultValues,
+    defaultValues: {
+      currency: initialCurrency,
+      orderType: initialOrderType,
+      amount: "",
+    },
     mode: "onChange",
   });
 

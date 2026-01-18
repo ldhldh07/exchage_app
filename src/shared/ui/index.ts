@@ -8,3 +8,5 @@ export { ArrowDownLongIcon, CircleArrowDownIcon } from "./ArrowDownLongIcon";
 export { ChevronDownIcon } from "./ChevronDownIcon";
 export { Skeleton } from "./Skeleton";
 export { USFlag, JPFlag } from "./flags";
+export { PageTitle } from "./PageTitle";
+export { ScrollToTopButton } from "./ScrollToTopButton";

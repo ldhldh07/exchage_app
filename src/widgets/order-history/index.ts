@@ -1,1 +1,1 @@
-export { OrderHistoryTable } from "./ui/OrderHistoryTable";
+export { OrderHistoryWidget } from "./ui/OrderHistoryWidget";

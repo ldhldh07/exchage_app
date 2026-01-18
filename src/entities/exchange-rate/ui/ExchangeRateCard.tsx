@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { formatRate, formatPercentage } from "@/shared/lib";
 import { getCurrencyName } from "@/shared/config";
 import { ArrowUpIcon, ArrowDownIcon, Skeleton } from "@/shared/ui";
@@ -7,7 +8,9 @@ interface ExchangeRateCardListProps {
   rates: ExchangeRateItem[];
 }
 
-export function ExchangeRateCardList({ rates }: Readonly<ExchangeRateCardListProps>) {
+export const ExchangeRateCardList = memo(function ExchangeRateCardList({ 
+  rates 
+}: Readonly<ExchangeRateCardListProps>) {
   return (
     <div className="flex md:flex-row flex-col gap-5">
       {rates.map((rate) => (
@@ -15,13 +18,15 @@ export function ExchangeRateCardList({ rates }: Readonly<ExchangeRateCardListPro
       ))}
     </div>
   );
-}
+});
 
 interface ExchangeRateCardProps {
   rate: ExchangeRateItem;
 }
 
-export function ExchangeRateCard({ rate }: Readonly<ExchangeRateCardProps>) {
+export const ExchangeRateCard = memo(function ExchangeRateCard({ 
+  rate 
+}: Readonly<ExchangeRateCardProps>) {
   const isPositive = rate.changePercentage >= 0;
 
   return (
@@ -43,7 +48,7 @@ export function ExchangeRateCard({ rate }: Readonly<ExchangeRateCardProps>) {
       <span className="text-h5 text-gray-600 whitespace-nowrap">{getCurrencyName(rate.currency)}</span>
     </div>
   );
-}
+});
 
 export function ExchangeRateCardSkeleton() {
   return (

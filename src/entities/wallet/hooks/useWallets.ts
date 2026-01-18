@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getWallets } from "../api/getWallets";
 import { mapWalletResponse } from "../lib/mapper";
+import { useAuthRedirect } from "@/shared/hooks";
 
 export const walletKeys = {
   all: ["wallets"] as const,
@@ -10,10 +11,14 @@ export const walletKeys = {
 };
 
 export const useWallets = () => {
-  return useQuery({
+  const query = useQuery({
     queryKey: walletKeys.summary(),
     queryFn: getWallets,
     staleTime: 1000 * 30, // 30초
     select: mapWalletResponse,
   });
+
+  useAuthRedirect({ errorCode: query.data?.errorCode });
+
+  return query;
 };

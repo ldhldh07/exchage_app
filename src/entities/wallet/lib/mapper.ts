@@ -5,17 +5,19 @@ interface MapWalletResult {
   success: boolean;
   data?: WalletCardData;
   error?: string;
+  errorCode?: string;
 }
 
 interface GetWalletsResult {
   success: boolean;
   data?: WalletSummaryResponse;
   error?: string;
+  errorCode?: string;
 }
 
 export const mapWalletResponse = (result: GetWalletsResult): MapWalletResult => {
   if (!result.success || !result.data) {
-    return { success: false, error: result.error };
+    return { success: false, error: result.error, errorCode: result.errorCode };
   }
 
   return {

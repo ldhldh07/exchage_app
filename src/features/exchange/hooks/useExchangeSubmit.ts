@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useTransition, useCallback } from "react";
+import { useState, useTransition, useCallback, useEffect, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useExchangeRates, exchangeRateKeys } from "@/entities/exchange-rate";
 import { walletKeys } from "@/entities/wallet";
-import { ERROR_CODES } from "@/shared/lib";
-import { createOrderAction } from "../server/createOrderAction";
+import { ERROR_CODES, withRetryResult } from "@/shared/lib";
+import { createOrderAction, type CreateOrderState } from "../server/createOrderAction";
 import type { ExchangeFormData } from "./useExchangeForm";
 
 interface OrderQuote {
@@ -14,6 +14,7 @@ interface OrderQuote {
 }
 
 interface UseExchangeSubmitParams {
+  formState: ExchangeFormData;
   quote: OrderQuote | null | undefined;
   onSuccess?: () => void;
 }
@@ -23,16 +24,41 @@ interface UseExchangeSubmitResult {
   isPending: boolean;
   success: boolean;
   serverError: string | null;
+  retryCount: number;
   getRateForCurrency: (currency: string) => number | undefined;
 }
 
-export const useExchangeSubmit = ({ quote, onSuccess }: UseExchangeSubmitParams): UseExchangeSubmitResult => {
+const RETRYABLE_ERRORS = [
+  ERROR_CODES.NETWORK_ERROR,
+  ERROR_CODES.TIMEOUT,
+  ERROR_CODES.SERVICE_UNAVAILABLE,
+] as const;
+
+const isRetryableError = (result: CreateOrderState): boolean => {
+  if (!result.errorCode) return false;
+  return RETRYABLE_ERRORS.includes(result.errorCode as typeof RETRYABLE_ERRORS[number]);
+};
+
+export const useExchangeSubmit = ({ formState, quote, onSuccess }: UseExchangeSubmitParams): UseExchangeSubmitResult => {
   const queryClient = useQueryClient();
   const [isPending, startTransition] = useTransition();
   const [serverError, setServerError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const { data: ratesData } = useExchangeRates();
+
+  useEffect(() => {
+    setServerError(null);
+    setRetryCount(0);
+  }, [formState.amount, formState.currency, formState.orderType]);
+
+  useEffect(() => {
+    return () => {
+      abortControllerRef.current?.abort();
+    };
+  }, []);
 
   const getCurrentRate = useCallback(
     (currency: string) => ratesData?.data?.find((r) => r.currency === currency),
@@ -45,16 +71,33 @@ export const useExchangeSubmit = ({ quote, onSuccess }: UseExchangeSubmitParams)
 
       if (!quote || !currentRateData) return;
 
+      abortControllerRef.current?.abort();
+      abortControllerRef.current = new AbortController();
+
       setServerError(null);
       setSuccess(false);
+      setRetryCount(0);
 
       startTransition(async () => {
-        const result = await createOrderAction({
+        const orderRequest = {
           exchangeRateId: currentRateData.id,
           fromCurrency: data.orderType === "buy" ? "KRW" : data.currency,
           toCurrency: data.orderType === "buy" ? data.currency : "KRW",
           forexAmount: parseFloat(data.amount),
-        });
+        };
+
+        const { result } = await withRetryResult(
+          () => createOrderAction(orderRequest),
+          {
+            maxRetries: 3,
+            delayBase: 1000,
+            shouldRetry: isRetryableError,
+            onRetry: (attempt) => setRetryCount(attempt),
+            signal: abortControllerRef.current?.signal,
+          }
+        );
+
+        setRetryCount(0);
 
         if (result.success) {
           setSuccess(true);
@@ -82,6 +125,7 @@ export const useExchangeSubmit = ({ quote, onSuccess }: UseExchangeSubmitParams)
     isPending,
     success,
     serverError,
+    retryCount,
     getRateForCurrency,
   };
 };

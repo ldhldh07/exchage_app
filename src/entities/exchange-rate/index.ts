@@ -26,5 +26,4 @@ export {
   ExchangeRateCardSkeleton,
   ExchangeRateCardListSkeleton,
 } from "./ui/ExchangeRateCard";
-export { ExchangeRateHeader } from "./ui/ExchangeRateHeader";
 export { CurrencySelect } from "./ui/CurrencySelect";

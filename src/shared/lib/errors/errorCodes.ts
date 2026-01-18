@@ -7,6 +7,13 @@ export const API_ERROR_CODES = {
   MISSING_PARAMETER: "MISSING_PARAMETER",
 } as const;
 
+// 네트워크 에러 코드 (클라이언트 측)
+export const NETWORK_ERROR_CODES = {
+  NETWORK_ERROR: "NETWORK_ERROR",
+  TIMEOUT: "TIMEOUT",
+  SERVICE_UNAVAILABLE: "SERVICE_UNAVAILABLE",
+} as const;
+
 // 도메인 에러 코드
 export const DOMAIN_ERROR_CODES = {
   WALLET_INSUFFICIENT_BALANCE: "WALLET_INSUFFICIENT_BALANCE",
@@ -24,11 +31,13 @@ export const DOMAIN_ERROR_CODES = {
 // 전체 에러 코드
 export const ERROR_CODES = {
   ...API_ERROR_CODES,
+  ...NETWORK_ERROR_CODES,
   ...DOMAIN_ERROR_CODES,
 } as const;
 
 // 타입 정의
 export type ApiErrorCode = (typeof API_ERROR_CODES)[keyof typeof API_ERROR_CODES];
+export type NetworkErrorCode = (typeof NETWORK_ERROR_CODES)[keyof typeof NETWORK_ERROR_CODES];
 export type DomainErrorCode = (typeof DOMAIN_ERROR_CODES)[keyof typeof DOMAIN_ERROR_CODES];
 export type ErrorCode = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
 
@@ -40,6 +49,11 @@ export const ERROR_MESSAGES: Record<ErrorCode, string> = {
   UNAUTHORIZED: "로그인이 필요한 서비스입니다.",
   VALIDATION_ERROR: "요청 데이터가 이상해요.",
   MISSING_PARAMETER: "필수 요청 파라미터가 누락되었어요.",
+
+  // 네트워크 에러
+  NETWORK_ERROR: "네트워크 오류가 발생했습니다.",
+  TIMEOUT: "요청 시간이 초과되었습니다.",
+  SERVICE_UNAVAILABLE: "서비스를 일시적으로 사용할 수 없습니다.",
 
   // 도메인 에러
   WALLET_INSUFFICIENT_BALANCE: "지갑의 잔액이 부족합니다.",

@@ -3,7 +3,7 @@
 import { postOrder, type OrderRequest } from "@/entities/order";
 
 export interface CreateOrderState {
-  success?: boolean;
+  success: boolean;
   error?: string;
   errorCode?: string;
 }
