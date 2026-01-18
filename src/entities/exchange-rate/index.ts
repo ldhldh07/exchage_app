@@ -6,7 +6,7 @@ export {
   type Currency,
   type ExchangeRateResponse,
   type ExchangeRateListResponse,
-} from "./models/schema";
+} from "./models/exchange-rate.schema";
 
 // API
 export { getExchangeRates } from "./api/getExchangeRates";

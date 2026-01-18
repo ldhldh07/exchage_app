@@ -1,6 +1,6 @@
 import { formatRate, formatPercentage } from "@/shared/lib";
 import { ArrowUpIcon, ArrowDownIcon } from "@/shared/ui";
-import type { ExchangeRateResponse, Currency } from "../models/schema";
+import type { ExchangeRateResponse, Currency } from "../models/exchange-rate.schema";
 
 const CURRENCY_LABELS: Record<Currency, { name: string }> = {
   USD: { name: "미국 달러" },
@@ -14,7 +14,7 @@ interface ExchangeRateCardListProps {
 
 export function ExchangeRateCardList({ rates }: Readonly<ExchangeRateCardListProps>) {
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-5">
       {rates.map((rate) => (
         <ExchangeRateCard key={rate.exchangeRateId} rate={rate} />
       ))}
@@ -32,7 +32,7 @@ export function ExchangeRateCard({ rate }: Readonly<ExchangeRateCardProps>) {
 
 
   return (
-    <div className="flex justify-between bg-white border border-gray-300 rounded-xl py-6 px-8">
+    <div className="flex w-[304px] justify-between bg-white border border-gray-300 rounded-xl py-6 px-8">
       <div className="flex flex-col w-[160px] items-start justify-between gap-2">
         <p className="text-h4 text-gray-600">{rate.currency}</p>
         <div className="flex flex-col gap-1 whitespace-nowrap">

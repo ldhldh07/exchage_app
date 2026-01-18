@@ -1,8 +1,8 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { API_ENDPOINTS } from "@/shared/config";
-import { ExchangeRateListResponseSchema, type ExchangeRateResponse } from "../models/schema";
+import { getAuthToken } from "@/shared/lib/auth";
+import { ExchangeRateListResponseSchema, type ExchangeRateResponse } from "../models/exchange-rate.schema";
 
 interface GetExchangeRatesResult {
   success: boolean;
@@ -12,17 +12,15 @@ interface GetExchangeRatesResult {
 
 export async function getExchangeRates(): Promise<GetExchangeRatesResult> {
   try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("accessToken")?.value;
-
-    if (!token) {
-      return { success: false, error: "인증이 필요합니다." };
+    const authResult = await getAuthToken();
+    if (!authResult.success) {
+      return { success: false, error: authResult.error };
     }
 
     const response = await fetch(API_ENDPOINTS.exchangeRates.latest, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${authResult.token}`,
         "Content-Type": "application/json",
       },
       cache: "no-store",
