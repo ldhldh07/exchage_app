@@ -12,6 +12,7 @@ export function LoginForm() {
     handleSubmit,
     onSubmit,
     csrfToken,
+    isPending,
     isDisabled,
     errorMessage,
   } = useLoginForm();
@@ -34,7 +35,7 @@ export function LoginForm() {
           disabled={isDisabled}
           error={errorMessage}
         />
-        <Button type="submit" isLoading={isDisabled} loadingText="로그인 중입니다.">
+        <Button type="submit" disabled={isDisabled} isLoading={isPending}>
           로그인 하기
         </Button>
       </form>
