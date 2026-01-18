@@ -6,12 +6,21 @@
   --color-cta: #1b2334;
 
   --text-title: 48px;
+  --text-title--line-height: 1.33;
   --text-subtitle: 32px;
+  --text-subtitle--line-height: 1.33;
   --text-button: 22px;
+  --text-button--line-height: 1.33;
+  --color-gray-800: #28323C;
+  --color-gray-700: #374553;
 
-  --leading-title: 1.33;
-  --leading-subtitle: 1.33;
-  --leading-button: 1.33;
+  --text-page-title: 40px;
+  --text-page-title--line-height: 1.33;
+  --text-page-title--font-weight: 700;
+
+  --text-page-subtitle: 16px;
+  --text-page-subtitle--line-height: 1.33;
+  --text-page-subtitle--font-weight: 400;
 
   --radius-card: 12px;
 
