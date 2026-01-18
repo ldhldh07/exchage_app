@@ -12,6 +12,13 @@ export class ValidationError extends Error {
     this.issues = issues;
   }
 }
+/**
+ * 타입 가드: ValidationError 여부 확인
+ */
+export const isValidationError = (error: unknown): error is ValidationError => {
+  return error instanceof ValidationError;
+};
+
 
 /**
  * API 응답 에러
@@ -29,3 +36,11 @@ export class ApiError extends Error {
     this.data = data;
   }
 }
+
+/**
+ * 타입 가드: ApiError 여부 확인
+ */
+export const isApiError = (error: unknown): error is ApiError => {
+  return error instanceof ApiError;
+};
+

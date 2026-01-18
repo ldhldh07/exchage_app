@@ -5,4 +5,4 @@ export { loginSchema, type LoginFormData } from "./models/auth.schema";
 export { postLogin, type LoginResponse } from "./api/postLogin";
 
 // UI
-export { LoginCard, LoginInput, LoginButton } from "./ui/LoginCard";
+export { LoginCard, LoginInput } from "./ui/LoginCard";
