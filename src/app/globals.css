@@ -1,11 +1,34 @@
 @import "tailwindcss";
 
+@theme {
+  --color-brand-700: #374553;
+  --color-brand-600: #646f7c;
+  --color-cta: #1b2334;
+
+  --text-title: 48px;
+  --text-subtitle: 32px;
+  --text-button: 22px;
+
+  --leading-title: 1.33;
+  --leading-subtitle: 1.33;
+  --leading-button: 1.33;
+
+  --radius-card: 12px;
+
+  --spacing-page-x: 200px;
+  --spacing-page-bottom: 50px;
+  --spacing-page-gap: 24px;
+}
+
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #f0f2f5;
-  color: #333;
+  font-family:
+    "Pretendard",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  color: var(--color-brand-700);
+  background-color: #ffffff;
 }

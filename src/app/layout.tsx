@@ -16,7 +16,7 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <Providers>
-          <main className="max-w-[1280px] mx-auto p-8 text-center w-full">{children}</main>
+          <main className="w-full">{children}</main>
         </Providers>
       </body>
     </html>
