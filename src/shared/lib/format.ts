@@ -6,14 +6,11 @@ export const formatRate = (value: number) => {
 };
 
 export const formatPercentage = (value: number) => {
-  const prefix = value >= 0 ? "+" : "";
-  return `${prefix}${value.toFixed(1)}%`;
+  const absValue = Math.abs(value);
+  return `${absValue.toFixed(2)}%`;
 };
 
-export const formatBalance = (value: number, isKRW: boolean = false) => {
-  if (isKRW) {
-    return value.toLocaleString("ko-KR");
-  }
+export const formatBalance = (value: number) => {
   return value.toLocaleString("ko-KR", {
     minimumFractionDigits: 3,
     maximumFractionDigits: 3,
