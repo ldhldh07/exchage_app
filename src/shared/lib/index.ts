@@ -14,5 +14,5 @@ export {
   type ApiErrorCode,
   type DomainErrorCode,
 } from "./errors";
-export { formatRate, formatPercentage, formatBalance, formatKrw } from "./format";
+export { formatRate, formatPercentage, formatBalance, formatKrw, formatForex, formatDateTime } from "./format";
 export { withRetry, withRetryResult } from "./retry";

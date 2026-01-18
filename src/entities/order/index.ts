@@ -33,4 +33,5 @@ export {
 export { AmountInput } from "./ui/AmountInput";
 export { AppliedRate } from "./ui/AppliedRate";
 export { QuoteResult } from "./ui/QuoteResult";
-export { OrderDivider } from "./ui/OrderDivider"
+export { OrderDivider } from "./ui/OrderDivider";
+export { OrderHistoryTable, OrderHistoryTableSkeleton } from "./ui/OrderHistoryTable";
