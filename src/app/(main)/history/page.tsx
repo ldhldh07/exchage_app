@@ -1,11 +1,12 @@
 "use client";
 
+import { PageTitle } from "@/shared/ui";
 import { OrderHistoryTable } from "@/widgets/order-history";
 
 export default function HistoryPage() {
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">환전 내역</h1>
+      <PageTitle title="환전 내역" subtitle="환전 내역을 확인하실 수 있어요." />
       <OrderHistoryTable />
     </div>
   );
