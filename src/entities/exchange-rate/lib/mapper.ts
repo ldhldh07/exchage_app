@@ -5,17 +5,19 @@ interface MapExchangeRateResult {
   success: boolean;
   data?: ExchangeRateItem[];
   error?: string;
+  errorCode?: string;
 }
 
 interface GetExchangeRatesResult {
   success: boolean;
   data?: ExchangeRateResponse[];
   error?: string;
+  errorCode?: string;
 }
 
 export const mapExchangeRateResponse = (result: GetExchangeRatesResult): MapExchangeRateResult => {
   if (!result.success || !result.data) {
-    return { success: false, error: result.error };
+    return { success: false, error: result.error, errorCode: result.errorCode };
   }
 
   return {

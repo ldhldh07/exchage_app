@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, useCallback } from "react";
+import { useState, useTransition, useCallback, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useExchangeRates, exchangeRateKeys } from "@/entities/exchange-rate";
 import { walletKeys } from "@/entities/wallet";
@@ -14,6 +14,7 @@ interface OrderQuote {
 }
 
 interface UseExchangeSubmitParams {
+  formState: ExchangeFormData;
   quote: OrderQuote | null | undefined;
   onSuccess?: () => void;
 }
@@ -26,13 +27,17 @@ interface UseExchangeSubmitResult {
   getRateForCurrency: (currency: string) => number | undefined;
 }
 
-export const useExchangeSubmit = ({ quote, onSuccess }: UseExchangeSubmitParams): UseExchangeSubmitResult => {
+export const useExchangeSubmit = ({ formState, quote, onSuccess }: UseExchangeSubmitParams): UseExchangeSubmitResult => {
   const queryClient = useQueryClient();
   const [isPending, startTransition] = useTransition();
   const [serverError, setServerError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
   const { data: ratesData } = useExchangeRates();
+
+  useEffect(() => {
+    setServerError(null);
+  }, [formState.amount, formState.currency, formState.orderType]);
 
   const getCurrentRate = useCallback(
     (currency: string) => ratesData?.data?.find((r) => r.currency === currency),

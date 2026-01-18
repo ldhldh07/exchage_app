@@ -83,10 +83,10 @@ export function ExchangeFormProvider({ children }: Readonly<ExchangeFormProvider
     }
   }, [formState.orderType, queryClient, setAmount]);
 
-  // onChange마다 바로 quote 조회
   const { quote, isLoading: isQuoteLoading } = useOrderQuote(formState);
 
   const { submit, isPending, success, serverError, getRateForCurrency } = useExchangeSubmit({
+    formState,
     quote,
     onSuccess: reset,
   });
