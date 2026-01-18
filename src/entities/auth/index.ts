@@ -6,4 +6,4 @@ export { postLogin, type LoginResponse } from "./api/postLogin";
 
 // UI
 export { LoginCard, LoginInput } from "./ui/LoginCard";
-export { LogoutButtonUI } from "./ui/LogoutButtonUI";
+export { LogoutButton } from "./ui/LogoutButton";

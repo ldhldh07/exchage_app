@@ -1,6 +1,6 @@
 // UI
 export { LoginForm } from "./ui/LoginForm";
-export { LogoutButton } from "./ui/LogoutButton";
+export { LogoutButtonContainer } from "./ui/LogoutButtonContainer";
 
 // Hooks
 export { useLoginForm } from "./hooks/useLoginForm";
