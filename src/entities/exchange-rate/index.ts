@@ -20,5 +20,10 @@ export { useExchangeRates } from "./hooks/useExchangeRates";
 export { exchangeRateKeys } from "./lib/queryKeys";
 
 // UI
-export { ExchangeRateCard, ExchangeRateCardList } from "./ui/ExchangeRateCard";
+export {
+  ExchangeRateCard,
+  ExchangeRateCardList,
+  ExchangeRateCardSkeleton,
+  ExchangeRateCardListSkeleton,
+} from "./ui/ExchangeRateCard";
 export { ExchangeRateHeader } from "./ui/ExchangeRateHeader";

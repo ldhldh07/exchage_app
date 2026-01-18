@@ -1,4 +1,5 @@
 import { formatBalance } from "@/shared/lib";
+import { Skeleton } from "@/shared/ui";
 import type { Currency, WalletItem, WalletCardData } from "../models/wallet.type";
 
 const CURRENCY_SYMBOLS: Record<Currency, string> = {
@@ -13,7 +14,7 @@ interface WalletCardProps {
 
 export function WalletCard({ data }: Readonly<WalletCardProps>) {
   return (
-    <div className="flex flex-col w-[628px] min-h-[508px] bg-gray-000 border border-gray-300 rounded-xl py-6 px-8 gap-8">
+    <div className="flex flex-col min-h-[508px] bg-gray-000 border border-gray-300 rounded-xl py-6 px-8 gap-8">
       <h2 className="text-h2 text-gray-800">내 지갑</h2>
 
       <div className="flex flex-col flex-1 justify-between">
@@ -49,6 +50,32 @@ function WalletRow({ wallet }: Readonly<WalletRowProps>) {
       <span className="font-semibold">
         {symbol} {formatBalance(wallet.balance, wallet.currency === "KRW")}
       </span>
+    </div>
+  );
+}
+
+export function WalletCardSkeleton() {
+  return (
+    <div className="flex flex-col min-h-[508px] bg-gray-000 border border-gray-300 rounded-xl py-6 px-8 gap-8">
+      <Skeleton className="h-8 w-24" />
+
+      <div className="flex flex-col flex-1 justify-between">
+        <div className="flex flex-col flex-1 gap-2">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="flex items-center justify-between gap-3">
+              <Skeleton className="h-6 w-12" />
+              <Skeleton className="h-6 w-24" />
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-col gap-3">
+          <div className="border-t border-gray-300" />
+          <div className="flex items-center justify-between">
+            <Skeleton className="h-6 w-24" />
+            <Skeleton className="h-6 w-32" />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

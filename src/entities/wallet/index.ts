@@ -18,4 +18,4 @@ export { getWallets } from "./api/getWallets";
 export { useWallets, walletKeys } from "./hooks/useWallets";
 
 // UI
-export { WalletCard } from "./ui/WalletCard";
+export { WalletCard, WalletCardSkeleton } from "./ui/WalletCard";
