@@ -1,12 +1,7 @@
 import { formatRate, formatPercentage } from "@/shared/lib";
+import { getCurrencyName } from "@/shared/config";
 import { ArrowUpIcon, ArrowDownIcon, Skeleton } from "@/shared/ui";
-import type { ExchangeRateItem, Currency } from "../models/exchange-rate.type";
-
-const CURRENCY_LABELS: Record<Currency, { name: string }> = {
-  USD: { name: "미국 달러" },
-  JPY: { name: "일본 엔화" },
-  KRW: { name: "대한민국 원" },
-};
+import type { ExchangeRateItem } from "../models/exchange-rate.type";
 
 interface ExchangeRateCardListProps {
   rates: ExchangeRateItem[];
@@ -27,7 +22,6 @@ interface ExchangeRateCardProps {
 }
 
 export function ExchangeRateCard({ rate }: Readonly<ExchangeRateCardProps>) {
-  const currencyInfo = CURRENCY_LABELS[rate.currency];
   const isPositive = rate.changePercentage >= 0;
 
   return (
@@ -46,7 +40,7 @@ export function ExchangeRateCard({ rate }: Readonly<ExchangeRateCardProps>) {
           </p>
         </div>
       </div>
-      <span className="text-h5 text-gray-600">{currencyInfo.name}</span>
+      <span className="text-h5 text-gray-600">{getCurrencyName(rate.currency)}</span>
     </div>
   );
 }

@@ -18,7 +18,7 @@ export async function postOrder(request: OrderRequest): Promise<PostOrderResult>
       return { success: false, error: authResult.error };
     }
 
-    const response = await fetch(API_ENDPOINTS.order.create, {
+    const response = await fetch(API_ENDPOINTS.order.postOrder, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${authResult.token}`,
