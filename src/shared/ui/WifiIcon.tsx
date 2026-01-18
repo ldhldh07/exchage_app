@@ -1,7 +1,11 @@
-export function WifiIcon() {
+interface WifiIconProps {
+  className?: string;
+}
+
+export function WifiIcon({ className = "w-20 h-20 mx-auto" }: WifiIconProps) {
   return (
     <svg
-      className="w-20 h-20 mx-auto"
+      className={className}
       viewBox="0 0 512 512"
       fill="#3479EB"
       xmlns="http://www.w3.org/2000/svg"

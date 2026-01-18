@@ -3,6 +3,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { postLogin } from "@/entities/auth";
+import { ROUTES } from "@/shared/config";
 import { validateLoginForm } from "../lib/validateLoginForm";
 
 export interface LoginState {
@@ -47,5 +48,5 @@ export async function loginAction(_prevState: LoginState, formData: FormData): P
 
   cookieStore.delete("csrfToken");
 
-  redirect("/");
+  redirect(ROUTES.home);
 }

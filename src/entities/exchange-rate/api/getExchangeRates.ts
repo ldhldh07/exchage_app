@@ -1,9 +1,8 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { API_ENDPOINTS } from "@/shared/config";
 import { ExchangeRateListResponseSchema, type ExchangeRateResponse } from "../models/schema";
-
-const API_BASE_URL = "https://exchange-example.switchflow.biz";
 
 interface GetExchangeRatesResult {
   success: boolean;
@@ -20,16 +19,18 @@ export async function getExchangeRates(): Promise<GetExchangeRatesResult> {
       return { success: false, error: "인증이 필요합니다." };
     }
 
-    const response = await fetch(`${API_BASE_URL}/exchange-rates/latest`, {
+    const response = await fetch(API_ENDPOINTS.exchangeRates.latest, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
+      cache: "no-store",
     });
 
     if (!response.ok) {
-      return { success: false, error: "환율 정보를 불러오는데 실패했습니다." };
+      const errorData = await response.json().catch(() => ({}));
+      return { success: false, error: errorData.message || "환율 정보를 불러오는데 실패했습니다." };
     }
 
     const json = await response.json();

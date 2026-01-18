@@ -13,6 +13,8 @@
   --text-button--line-height: 1.33;
   --color-gray-800: #28323C;
   --color-gray-700: #374553;
+  --color-gray-600: #646F7C;
+  --color-gray-300: #D0D6DB;
 
   --text-page-title: 40px;
   --text-page-title--line-height: 1.33;
@@ -21,6 +23,18 @@
   --text-page-subtitle: 16px;
   --text-page-subtitle--line-height: 1.33;
   --text-page-subtitle--font-weight: 400;
+  
+  --text-h3: 24px;
+  --text-h3--line-height: 1.33;
+  --text-h3--font-weight: 700;
+
+  --text-h4: 20px;
+  --text-h4--line-height: 1.33;
+  --text-h4--font-weight: 600;
+
+  --text-h5: 16px;
+  --text-h5--line-height: 1.33;
+  --text-h5--font-weight: 400;
 
   --radius-card: 12px;
 
@@ -41,3 +55,4 @@ body {
   color: var(--color-brand-700);
   background-color: #ffffff;
 }
+
