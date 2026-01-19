@@ -3,13 +3,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getExchangeRates } from "../api/getExchangeRates";
 import { mapExchangeRateResponse } from "../lib/mapper";
+import { exchangeRateKeys } from "../models/exchange-rate.keys";
 import { useAuthRedirect } from "@/shared/hooks";
 import { shouldRetryQuery } from "@/shared/lib";
-
-export const exchangeRateKeys = {
-  all: ["exchange-rates"] as const,
-  latest: () => [...exchangeRateKeys.all, "latest"] as const,
-};
 
 export const useExchangeRates = () => {
   const query = useQuery({

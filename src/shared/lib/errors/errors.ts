@@ -130,17 +130,35 @@ export const AppError = {
   ResponseParse: ResponseParseError,
 
   // Type Guards
-  is: (error: unknown): error is BaseError => error instanceof BaseError,
-  isApi: (error: unknown): error is ApiError => error instanceof ApiError,
-  isDomain: (error: unknown): error is DomainError => error instanceof DomainError,
-  isNetwork: (error: unknown): error is NetworkError => error instanceof NetworkError,
-  isUnauthorized: (error: unknown): error is UnauthorizedError => error instanceof UnauthorizedError,
-  isInsufficientBalance: (error: unknown): error is InsufficientBalanceError => error instanceof InsufficientBalanceError,
-  isExchangeRateMismatch: (error: unknown): error is ExchangeRateMismatchError => error instanceof ExchangeRateMismatchError,
-  isResponseParse: (error: unknown): error is ResponseParseError => error instanceof ResponseParseError,
+  is: (error: unknown): error is BaseError =>
+    error instanceof BaseError ||
+    (error instanceof Error && error.name === "BaseError"),
+  isApi: (error: unknown): error is ApiError =>
+    error instanceof ApiError ||
+    (error instanceof Error && error.name === "ApiError"),
+  isDomain: (error: unknown): error is DomainError =>
+    error instanceof DomainError ||
+    (error instanceof Error && error.name === "DomainError"),
+  isNetwork: (error: unknown): error is NetworkError =>
+    error instanceof NetworkError ||
+    (error instanceof Error &&
+      ["NetworkError", "TimeoutError", "ServiceUnavailableError"].includes(error.name)),
+  isUnauthorized: (error: unknown): error is UnauthorizedError =>
+    error instanceof UnauthorizedError ||
+    (error instanceof Error && error.name === "UnauthorizedError"),
+  isInsufficientBalance: (error: unknown): error is InsufficientBalanceError =>
+    error instanceof InsufficientBalanceError ||
+    (error instanceof Error && error.name === "InsufficientBalanceError"),
+  isExchangeRateMismatch: (error: unknown): error is ExchangeRateMismatchError =>
+    error instanceof ExchangeRateMismatchError ||
+    (error instanceof Error && error.name === "ExchangeRateMismatchError"),
+  isResponseParse: (error: unknown): error is ResponseParseError =>
+    error instanceof ResponseParseError ||
+    (error instanceof Error && error.name === "ResponseParseError"),
 
   hasCode: (error: unknown, code: string): error is BaseError =>
-    error instanceof BaseError && error.code === code,
+    (error instanceof BaseError && error.code === code) ||
+    (error instanceof Error && error.name.includes(code)),
 
   fromCode: (
     code: string,

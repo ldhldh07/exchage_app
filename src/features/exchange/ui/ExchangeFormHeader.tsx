@@ -1,7 +1,8 @@
 "use client";
 
 import { useDropdown } from "@/shared/hooks";
-import { CurrencySelect, type Currency } from "@/entities/exchange-rate";
+import { type Currency } from "@/shared/config";
+import { CurrencySelect } from "@/entities/exchange-rate";
 import { useExchangeFormContext } from "../context/ExchangeFormContext";
 
 export function ExchangeFormHeader() {

@@ -1,8 +1,6 @@
 import { Button } from "@/shared/ui";
 import type { ReactNode } from "react";
 
-export type OrderType = "buy" | "sell";
-
 export interface OrderQuote {
   krwAmount: number;
   appliedRate: number;

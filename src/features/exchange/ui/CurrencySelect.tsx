@@ -5,7 +5,7 @@ import {
   type Currency,
   EXCHANGEABLE_CURRENCIES,
   getCurrencyInfo,
-} from "@/shared/config/currency";
+} from "@/shared/config";
 import { useExchangeFormContext } from "../context/ExchangeFormContext";
 
 export function CurrencySelect() {

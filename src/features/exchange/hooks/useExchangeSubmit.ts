@@ -4,14 +4,10 @@ import { useState, useTransition, useCallback, useEffect, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useExchangeRates, exchangeRateKeys } from "@/entities/exchange-rate";
 import { walletKeys } from "@/entities/wallet";
+import { type OrderQuote } from "@/entities/order";
 import { ERROR_CODES, withRetryResult } from "@/shared/lib";
 import { createOrderAction, type CreateOrderState } from "../server/createOrderAction";
 import type { ExchangeFormData } from "./useExchangeForm";
-
-interface OrderQuote {
-  krwAmount: number;
-  appliedRate: number;
-}
 
 interface UseExchangeSubmitParams {
   formState: ExchangeFormData;

@@ -2,13 +2,9 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { getOrders } from "../api/getOrders";
+import { orderKeys } from "../models/order.keys";
 import { useAuthRedirect } from "@/shared/hooks";
 import { shouldRetryQuery } from "@/shared/lib";
-
-export const orderKeys = {
-  all: ["orders"] as const,
-  list: () => [...orderKeys.all, "list"] as const,
-};
 
 export const useOrders = () => {
   const query = useQuery({

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CurrencySchema } from "@/entities/exchange-rate";
+import { CurrencySchema } from "@/shared/config";
 
 // 주문 요청
 export const OrderRequestSchema = z.object({

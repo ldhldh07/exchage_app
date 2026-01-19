@@ -1,7 +1,9 @@
+import { z } from "zod";
 import { USFlag, JPFlag } from "@/shared/ui";
 import type { ComponentType, SVGProps } from "react";
 
-export type Currency = "KRW" | "USD" | "JPY";
+export const CurrencySchema = z.enum(["KRW", "USD", "JPY"]);
+export type Currency = z.infer<typeof CurrencySchema>;
 
 export interface CurrencyInfo {
   code: Currency;
