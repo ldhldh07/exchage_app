@@ -12,7 +12,7 @@ import { QuoteResultContainer } from "./QuoteResultContainer";
 import { AppliedRateContainer } from "./AppliedRateContainer";
 
 function ExchangeFormContent() {
-  const { quote, isPending, isValid, serverError, rateChangeMessage, retryCount, handleSubmit } = useExchangeFormContext();
+  const { quote, isPending, isValid, serverError, retryCount, handleSubmit } = useExchangeFormContext();
 
   return (
     <OrderForm
@@ -20,7 +20,6 @@ function ExchangeFormContent() {
       isValid={isValid}
       hasQuote={!!quote}
       serverError={serverError}
-      rateChangeMessage={rateChangeMessage}
       retryCount={retryCount}
       onSubmit={handleSubmit}
     >

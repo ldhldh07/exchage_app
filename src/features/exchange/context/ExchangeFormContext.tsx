@@ -6,8 +6,6 @@ import { type OrderQuote } from "@/entities/order";
 import { useExchangeForm, type ExchangeFormData } from "../hooks/useExchangeForm";
 import { useOrderQuote, orderQuoteKeys } from "../hooks/useOrderQuote";
 import { useExchangeSubmit } from "../hooks/useExchangeSubmit";
-import { useCurrentRate } from "../hooks/useCurrentRate";
-import { useRateChangeNotification } from "../hooks/useRateChangeNotification";
 import { useUrlParam } from "@/shared/hooks";
 import { validateCurrency, validateOrderType, type Currency, type OrderType } from "@/shared/config";
 import type { UseFormReturn } from "react-hook-form";
@@ -28,7 +26,6 @@ interface ExchangeFormState {
   isPending: boolean;
   success: boolean;
   serverError: string | null;
-  rateChangeMessage: string | null;
   retryCount: number;
   currentRate?: number;
 }
@@ -121,24 +118,13 @@ export function ExchangeFormProvider({ children }: Readonly<ExchangeFormProvider
 
   const { quote, isLoading: isQuoteLoading } = useOrderQuote(formState);
 
-  const { getRateData, getRate } = useCurrentRate();
-  const currentRateData = getRateData(formState.currency);
-  const currentRate = getRate(formState.currency);
-
-  const { rateChangeMessage } = useRateChangeNotification({
-    currency: formState.currency,
-    orderType: formState.orderType,
-    amount: formState.amount,
-    currentRate,
-    hasQuote: !!quote,
-  });
-
-  const { submit, isPending, success, serverError, retryCount } = useExchangeSubmit({
+  const { submit, isPending, success, serverError, retryCount, getRateForCurrency } = useExchangeSubmit({
     formState,
     quote,
-    exchangeRateId: currentRateData?.id,
     onSuccess: reset,
   });
+
+  const currentRate = getRateForCurrency(formState.currency);
 
   const handleSubmit = form.handleSubmit(submit);
 
@@ -176,7 +162,6 @@ export function ExchangeFormProvider({ children }: Readonly<ExchangeFormProvider
     isPending,
     success,
     serverError,
-    rateChangeMessage,
     retryCount,
     currentRate,
   };
