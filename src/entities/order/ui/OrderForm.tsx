@@ -1,8 +1,6 @@
 import { Button } from "@/shared/ui";
 import type { ReactNode } from "react";
 
-export type OrderType = "buy" | "sell";
-
 export interface OrderQuote {
   krwAmount: number;
   appliedRate: number;
@@ -35,7 +33,11 @@ export function OrderForm({
       <div className="space-y-8">{children}</div>
 
       <div className="flex flex-col gap-1">
-        <p className={`text-sm font-semibold text-right h-5 ${serverError ? "text-red-500" : "invisible"}`}>
+        <p
+          className={`text-sm font-semibold text-right h-5 ${
+            serverError ? "text-red-500" : "invisible"
+          }`}
+        >
           {serverError || "placeholder"}
         </p>
         <Button

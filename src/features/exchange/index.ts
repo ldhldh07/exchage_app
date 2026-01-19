@@ -1,5 +1,4 @@
 // UI
-export { CurrencySelect } from "./ui/CurrencySelect";
 export { BuySellToggle } from "./ui/BuySellToggle";
 export { AmountInputContainer } from "./ui/AmountInputContainer";
 export { ExchangeFormHeader } from "./ui/ExchangeFormHeader";

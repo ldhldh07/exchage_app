@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CurrencySchema } from "@/entities/exchange-rate";
+import { CurrencySchema } from "@/shared/config";
 
 export const WalletResponseSchema = z.object({
   walletId: z.number(),

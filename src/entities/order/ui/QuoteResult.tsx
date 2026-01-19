@@ -1,5 +1,6 @@
 import { formatKrw } from "@/shared/lib";
-import { OrderQuote, OrderType } from "./OrderForm";
+import { type OrderType } from "@/shared/config";
+import { type OrderQuote } from "./OrderForm";
 
 export interface QuoteResultProps {
   orderType: OrderType;

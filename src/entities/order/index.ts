@@ -21,14 +21,16 @@ export { getOrders } from "./api/getOrders";
 export { getOrderQuote } from "./api/getOrderQuote";
 export { postOrder } from "./api/postOrder";
 
+// Keys
+export { orderKeys } from "./models/order.keys";
+
 // Hooks
-export { useOrders, orderKeys } from "./hooks/useOrders";
+export { useOrders } from "./hooks/useOrders";
 
 // UI
 export {
   OrderForm,
   type OrderQuote,
-  type OrderType,
 } from "./ui/OrderForm";
 export { AmountInput } from "./ui/AmountInput";
 export { AppliedRate } from "./ui/AppliedRate";

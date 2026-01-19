@@ -66,9 +66,13 @@ function CurrencySelectItem({ currency, isSelected, onSelect }: Readonly<Currenc
   return (
     <button
       type="button"
-      onClick={() => onSelect(currency)}
-      className={`w-[140px] flex items-center gap-3 px-4 py-2 hover:bg-cta-pressed transition-colors cursor-pointer ${isSelected ? "bg-cta-second-pressed" : ""
-        }`}
+      onClick={() => !isSelected && onSelect(currency)}
+      disabled={isSelected}
+      className={`w-[140px] flex items-center gap-3 px-4 py-2 transition-colors ${
+        isSelected
+          ? "bg-cta-second-pressed cursor-default"
+          : "hover:bg-cta-pressed cursor-pointer"
+      }`}
     >
       {FlagComponent && <FlagComponent size={20} />}
       <span className="text-p1">{name} {code}</span>

@@ -4,14 +4,11 @@ import { useState, useTransition, useCallback, useEffect, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useExchangeRates, exchangeRateKeys } from "@/entities/exchange-rate";
 import { walletKeys } from "@/entities/wallet";
+import { type OrderQuote } from "@/entities/order";
+import { orderQuoteKeys } from "./useOrderQuote";
 import { ERROR_CODES, withRetryResult } from "@/shared/lib";
 import { createOrderAction, type CreateOrderState } from "../server/createOrderAction";
 import type { ExchangeFormData } from "./useExchangeForm";
-
-interface OrderQuote {
-  krwAmount: number;
-  appliedRate: number;
-}
 
 interface UseExchangeSubmitParams {
   formState: ExchangeFormData;
@@ -108,6 +105,7 @@ export const useExchangeSubmit = ({ formState, quote, onSuccess }: UseExchangeSu
           setServerError(result.error || "환전에 실패했습니다.");
           if (result.errorCode === ERROR_CODES.EXCHANGE_RATE_MISMATCH) {
             queryClient.invalidateQueries({ queryKey: exchangeRateKeys.all });
+            queryClient.invalidateQueries({ queryKey: orderQuoteKeys.all });
           }
         }
       });

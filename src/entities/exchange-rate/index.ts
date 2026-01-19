@@ -1,6 +1,5 @@
 // Schema 
 export {
-  CurrencySchema,
   ExchangeRateResponseSchema,
   ExchangeRateListResponseSchema,
   type ExchangeRateResponse,
@@ -8,7 +7,7 @@ export {
 } from "./models/exchange-rate.schema";
 
 // Types 
-export type { Currency, ExchangeRateItem } from "./models/exchange-rate.type";
+export type { ExchangeRateItem } from "./models/exchange-rate.type";
 
 // API
 export { getExchangeRates } from "./api/getExchangeRates";
@@ -16,8 +15,8 @@ export { getExchangeRates } from "./api/getExchangeRates";
 // Hooks
 export { useExchangeRates } from "./hooks/useExchangeRates";
 
-// Lib
-export { exchangeRateKeys } from "./lib/queryKeys";
+// Keys
+export { exchangeRateKeys } from "./models/exchange-rate.keys";
 
 // UI
 export {

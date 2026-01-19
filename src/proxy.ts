@@ -6,12 +6,16 @@ const PUBLIC_PATHS = [ROUTES.login];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const token = request.cookies.get("accessToken")?.value;
+
+  if (pathname === ROUTES.login && token) {
+    const homeUrl = new URL(ROUTES.home, request.url);
+    return NextResponse.redirect(homeUrl);
+  }
 
   if (PUBLIC_PATHS.some((path) => pathname.startsWith(path))) {
     return NextResponse.next();
   }
-
-  const token = request.cookies.get("accessToken")?.value;
 
   if (!token) {
     const loginUrl = new URL(ROUTES.login, request.url);

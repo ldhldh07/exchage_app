@@ -2,17 +2,13 @@
 
 import { createContext, useContext, useRef, useMemo, useEffect, useCallback, type ReactNode } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { type OrderQuote } from "@/entities/order";
 import { useExchangeForm, type ExchangeFormData } from "../hooks/useExchangeForm";
 import { useOrderQuote, orderQuoteKeys } from "../hooks/useOrderQuote";
 import { useExchangeSubmit } from "../hooks/useExchangeSubmit";
 import { useUrlParam } from "@/shared/hooks";
 import { validateCurrency, validateOrderType, type Currency, type OrderType } from "@/shared/config";
 import type { UseFormReturn } from "react-hook-form";
-
-interface OrderQuote {
-  krwAmount: number;
-  appliedRate: number;
-}
 
 interface ExchangeFormState {
   form: UseFormReturn<ExchangeFormData>;

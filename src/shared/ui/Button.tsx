@@ -18,8 +18,7 @@ export function Button({
   return (
     <button
       type={type}
-      className={`${fullWidth ? "w-full" : "w-[496px]"} bg-cta cursor-pointer text-button leading-button font-bold text-white transition-colors hover:bg-[#111827] disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center`}
-      style={{ padding: "24px 10px", borderRadius: "12px" }}
+      className={`${fullWidth ? "w-full" : "w-[496px]"} bg-cta cursor-pointer text-button leading-button font-bold text-white transition-colors hover:bg-[#111827] disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center py-6 px-2.5 rounded-xl`}
       disabled={isLoading || disabled}
       {...props}
     >

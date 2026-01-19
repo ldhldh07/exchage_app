@@ -9,13 +9,16 @@ export {
 } from "./models/wallet.schema";
 
 // Types
-export type { Currency, WalletItem, WalletCardData } from "./models/wallet.type";
+export type { WalletItem, WalletCardData } from "./models/wallet.type";
 
 // API
 export { getWallets } from "./api/getWallets";
 
+// Keys
+export { walletKeys } from "./models/wallet.keys";
+
 // Hooks
-export { useWallets, walletKeys } from "./hooks/useWallets";
+export { useWallets } from "./hooks/useWallets";
 
 // UI
 export { WalletCard, WalletCardSkeleton } from "./ui/WalletCard";

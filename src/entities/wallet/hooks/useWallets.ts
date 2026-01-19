@@ -3,13 +3,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getWallets } from "../api/getWallets";
 import { mapWalletResponse } from "../lib/mapper";
+import { walletKeys } from "../models/wallet.keys";
 import { useAuthRedirect } from "@/shared/hooks";
 import { shouldRetryQuery } from "@/shared/lib";
-
-export const walletKeys = {
-  all: ["wallets"] as const,
-  summary: () => [...walletKeys.all, "summary"] as const,
-};
 
 export const useWallets = () => {
   const query = useQuery({

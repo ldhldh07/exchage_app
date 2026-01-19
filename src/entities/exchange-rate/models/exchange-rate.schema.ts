@@ -1,7 +1,5 @@
 import { z } from "zod";
-
-export const CurrencySchema = z.enum(["KRW", "USD", "JPY"]);
-export type Currency = z.infer<typeof CurrencySchema>;
+import { CurrencySchema } from "@/shared/config";
 
 export const ExchangeRateResponseSchema = z.object({
   exchangeRateId: z.number(),

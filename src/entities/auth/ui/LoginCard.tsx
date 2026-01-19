@@ -39,8 +39,7 @@ export const LoginInput = forwardRef<HTMLInputElement, Readonly<LoginInputProps>
         </label>
         <input
           ref={ref}
-          className="w-full h-[75px] border border-brand-700 bg-white text-xl leading-[1.33] font-semibold text-brand-600 outline-none transition-all placeholder:text-brand-600 focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/15 disabled:bg-gray-50 disabled:cursor-not-allowed"
-          style={{ padding: "24px", borderRadius: "12px" }}
+          className="w-full h-[75px] border border-brand-700 bg-white text-xl leading-[1.33] font-semibold text-brand-600 outline-none transition-all placeholder:text-brand-600 focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/15 disabled:bg-gray-50 disabled:cursor-not-allowed p-6 rounded-xl"
           {...inputProps}
         />
         {error && <span className="block text-xs text-red-500 mt-2">{error}</span>}

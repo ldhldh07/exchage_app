@@ -21,6 +21,7 @@ export {
   ERROR_CODES,
   DOMAIN_ERROR_CODES,
   API_ERROR_CODES,
+  NETWORK_ERROR_CODES,
   ERROR_MESSAGES,
   UNAUTHORIZED_REASON_MESSAGES,
   getErrorMessage,
@@ -28,6 +29,7 @@ export {
   type ErrorCode,
   type ApiErrorCode,
   type DomainErrorCode,
+  type NetworkErrorCode,
   type UnauthorizedReason,
 } from "./errors";
 export { formatRate, formatPercentage, formatBalance, formatKrw, formatForex, formatDateTime } from "./format";
