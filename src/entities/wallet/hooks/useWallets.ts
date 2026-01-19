@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getWallets } from "../api/getWallets";
 import { mapWalletResponse } from "../lib/mapper";
 import { useAuthRedirect } from "@/shared/hooks";
+import { shouldRetryQuery } from "@/shared/lib";
 
 export const walletKeys = {
   all: ["wallets"] as const,
@@ -16,9 +17,10 @@ export const useWallets = () => {
     queryFn: getWallets,
     staleTime: 1000 * 30, // 30초
     select: mapWalletResponse,
+    retry: shouldRetryQuery,
   });
 
-  useAuthRedirect({ errorCode: query.data?.errorCode });
+  useAuthRedirect({ error: query.error });
 
   return query;
 };

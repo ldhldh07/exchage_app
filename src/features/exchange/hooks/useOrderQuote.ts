@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo, useRef } from "react";
 import { getOrderQuote, type OrderQuoteRequest } from "@/entities/order";
 import { getCurrencyMinAmount, type OrderType } from "@/shared/config";
+import { shouldRetryQuery } from "@/shared/lib";
 import type { ExchangeFormData } from "./useExchangeForm";
 
 export const orderQuoteKeys = {
@@ -46,15 +47,11 @@ export const useOrderQuote = (formState: ExchangeFormData) => {
     queryFn: () => getOrderQuote(quoteParams!),
     enabled: quoteParams !== null,
     staleTime: 1000 * 30, // 30초
-    placeholderData: () => {
-      if (lastQuoteRef.current) {
-        return { success: true, data: lastQuoteRef.current };
-      }
-      return undefined;
-    },
+    placeholderData: lastQuoteRef.current ?? undefined,
+    retry: shouldRetryQuery,
   });
 
-  const currentQuote = query.data?.success ? query.data.data : null;
+  const currentQuote = query.data ?? null;
   if (currentQuote) {
     lastQuoteRef.current = currentQuote;
   }
@@ -64,6 +61,6 @@ export const useOrderQuote = (formState: ExchangeFormData) => {
   return {
     quote,
     isLoading: query.isLoading,
-    error: query.data?.error || (query.error ? "견적 조회 실패" : null),
+    error: query.error ? "견적 조회 실패" : null,
   };
 };

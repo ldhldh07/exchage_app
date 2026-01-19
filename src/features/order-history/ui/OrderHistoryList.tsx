@@ -13,7 +13,7 @@ const PAGE_SIZE = 10;
 export function OrderHistoryList() {
   const { data, isLoading, error } = useOrders();
 
-  const orders = data?.data ?? [];
+  const orders = data ?? [];
   const { data: visibleOrders, hasMore, loadMore } = useClientPagination(orders, {
     pageSize: PAGE_SIZE,
   });
@@ -34,10 +34,10 @@ export function OrderHistoryList() {
     );
   }
 
-  if (error || !data?.success || !data.data) {
+  if (error || !data) {
     return (
       <div className="text-center py-16 text-red-500">
-        {data?.error || "환전 내역을 불러오는데 실패했습니다."}
+        {error?.message || "환전 내역을 불러오는데 실패했습니다."}
       </div>
     );
   }

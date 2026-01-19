@@ -41,6 +41,15 @@ export type NetworkErrorCode = (typeof NETWORK_ERROR_CODES)[keyof typeof NETWORK
 export type DomainErrorCode = (typeof DOMAIN_ERROR_CODES)[keyof typeof DOMAIN_ERROR_CODES];
 export type ErrorCode = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
 
+// 인증 에러 reason별 메시지
+export const UNAUTHORIZED_REASON_MESSAGES = {
+  NO_TOKEN: "로그인이 필요합니다.",
+  TOKEN_EXPIRED: "세션이 만료되었습니다. 다시 로그인해주세요.",
+  TOKEN_INVALID: "인증 정보가 유효하지 않습니다.",
+} as const;
+
+export type UnauthorizedReason = keyof typeof UNAUTHORIZED_REASON_MESSAGES;
+
 // 에러 메시지 매핑
 export const ERROR_MESSAGES: Record<ErrorCode, string> = {
   // API 에러
@@ -71,4 +80,10 @@ export const ERROR_MESSAGES: Record<ErrorCode, string> = {
 // 에러 메시지 가져오기 유틸
 export const getErrorMessage = (code: string, fallback?: string): string => {
   return ERROR_MESSAGES[code as ErrorCode] || fallback || "알 수 없는 오류가 발생했습니다.";
+};
+
+// 인증 에러 reason별 메시지 가져오기
+export const getUnauthorizedMessage = (reason?: UnauthorizedReason): string => {
+  if (!reason) return ERROR_MESSAGES.UNAUTHORIZED;
+  return UNAUTHORIZED_REASON_MESSAGES[reason] || ERROR_MESSAGES.UNAUTHORIZED;
 };

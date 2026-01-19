@@ -3,18 +3,18 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/shared/config";
-import { ERROR_CODES } from "@/shared/lib";
+import { AppError, ERROR_CODES } from "@/shared/lib";
 
 interface UseAuthRedirectParams {
-  errorCode?: string;
+  error: Error | null;
 }
 
-export function useAuthRedirect({ errorCode }: UseAuthRedirectParams) {
+export function useAuthRedirect({ error }: UseAuthRedirectParams) {
   const router = useRouter();
 
   useEffect(() => {
-    if (errorCode === ERROR_CODES.UNAUTHORIZED) {
+    if (AppError.hasCode(error, ERROR_CODES.UNAUTHORIZED)) {
       router.replace(ROUTES.login);
     }
-  }, [errorCode, router]);
+  }, [error, router]);
 }
