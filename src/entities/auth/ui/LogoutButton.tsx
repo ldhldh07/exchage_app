@@ -5,7 +5,7 @@ type LogoutButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "classNam
 export function LogoutButton({ children, ...props }: Readonly<LogoutButtonProps>) {
   return (
     <button
-      className="px-3 py-2 text-xl font-semibold text-white bg-blue-500 rounded-xl hover:bg-blue-600 transition-colors"
+      className="cursor-pointer px-3 py-2 text-xl font-semibold text-white bg-blue-500 rounded-xl hover:bg-blue-600 transition-colors"
       {...props}
     >
       {children}
