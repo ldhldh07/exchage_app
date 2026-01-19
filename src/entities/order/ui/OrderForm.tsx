@@ -11,6 +11,7 @@ export interface OrderFormProps {
   isValid: boolean;
   hasQuote: boolean;
   serverError?: string | null;
+  rateChangeMessage?: string | null;
   retryCount?: number;
   onSubmit: () => void;
   children: ReactNode;
@@ -21,6 +22,7 @@ export function OrderForm({
   isValid,
   hasQuote,
   serverError,
+  rateChangeMessage,
   retryCount = 0,
   onSubmit,
   children,
@@ -28,13 +30,21 @@ export function OrderForm({
   const isRetrying = retryCount > 0;
   const buttonText = isRetrying ? `재시도 중... (${retryCount}/3)` : "환전하기";
 
+  const errorMessage = serverError || rateChangeMessage;
+  const isError = !!serverError;
+  const isWarning = !serverError && !!rateChangeMessage;
+
   return (
     <div className="flex flex-col justify-between h-[787px] bg-gray-000 border border-gray-300 rounded-xl py-6 px-8">
       <div className="space-y-8">{children}</div>
 
       <div className="flex flex-col gap-1">
-        <p className={`text-sm font-semibold text-right h-5 ${serverError ? "text-red-500" : "invisible"}`}>
-          {serverError || "placeholder"}
+        <p
+          className={`text-sm font-semibold text-right h-5 ${
+            isError ? "text-red-500" : isWarning ? "text-amber-500" : "invisible"
+          }`}
+        >
+          {errorMessage || "placeholder"}
         </p>
         <Button
           fullWidth
