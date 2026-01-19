@@ -102,6 +102,7 @@ export function ExchangeFormProvider({ children }: Readonly<ExchangeFormProvider
   );
 
   const prevOrderTypeRef = useRef(formState.orderType);
+  const prevCurrencyRef = useRef(formState.currency);
 
   useEffect(() => {
     if (prevOrderTypeRef.current !== formState.orderType) {
@@ -110,6 +111,14 @@ export function ExchangeFormProvider({ children }: Readonly<ExchangeFormProvider
       prevOrderTypeRef.current = formState.orderType;
     }
   }, [formState.orderType, queryClient, setAmount]);
+
+  useEffect(() => {
+    if (prevCurrencyRef.current !== formState.currency) {
+      setAmount("");
+      queryClient.removeQueries({ queryKey: orderQuoteKeys.all });
+      prevCurrencyRef.current = formState.currency;
+    }
+  }, [formState.currency, queryClient, setAmount]);
 
   const { quote, isLoading: isQuoteLoading } = useOrderQuote(formState);
 
