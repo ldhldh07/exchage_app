@@ -6,6 +6,7 @@ import { type OrderQuote } from "@/entities/order";
 import { useExchangeForm, type ExchangeFormData } from "../hooks/useExchangeForm";
 import { useOrderQuote, orderQuoteKeys } from "../hooks/useOrderQuote";
 import { useExchangeSubmit } from "../hooks/useExchangeSubmit";
+import { useCurrentRate } from "../hooks/useCurrentRate";
 import { useUrlParam } from "@/shared/hooks";
 import { validateCurrency, validateOrderType, type Currency, type OrderType } from "@/shared/config";
 import type { UseFormReturn } from "react-hook-form";
@@ -118,13 +119,17 @@ export function ExchangeFormProvider({ children }: Readonly<ExchangeFormProvider
 
   const { quote, isLoading: isQuoteLoading } = useOrderQuote(formState);
 
-  const { submit, isPending, success, serverError, retryCount, getRateForCurrency } = useExchangeSubmit({
+  const { getRateData, getRate } = useCurrentRate();
+  const currentRateData = getRateData(formState.currency);
+
+  const { submit, isPending, success, serverError, retryCount } = useExchangeSubmit({
     formState,
     quote,
+    exchangeRateId: currentRateData?.id,
     onSuccess: reset,
   });
 
-  const currentRate = getRateForCurrency(formState.currency);
+  const currentRate = getRate(formState.currency);
 
   const handleSubmit = form.handleSubmit(submit);
 
