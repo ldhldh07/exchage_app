@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getExchangeRates } from "../api/getExchangeRates";
 import { mapExchangeRateResponse } from "../lib/mapper";
 import { useAuthRedirect } from "@/shared/hooks";
+import { shouldRetryQuery } from "@/shared/lib";
 
 export const exchangeRateKeys = {
   all: ["exchange-rates"] as const,
@@ -17,9 +18,10 @@ export const useExchangeRates = () => {
     staleTime: 1000 * 60, // 1분
     refetchInterval: 1000 * 60, // 1분마다 자동 갱신
     select: mapExchangeRateResponse,
+    retry: shouldRetryQuery,
   });
 
-  useAuthRedirect({ errorCode: query.data?.errorCode });
+  useAuthRedirect({ error: query.error });
 
   return query;
 };

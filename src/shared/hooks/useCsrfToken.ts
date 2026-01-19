@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ApiError, isApiError } from "@/shared/lib";
+import { ApiError, AppError } from "@/shared/lib";
 
 interface UseCsrfTokenResult {
   token: string | null;
@@ -36,7 +36,7 @@ export const useCsrfToken = (): UseCsrfTokenResult => {
       } catch (error) {
         if (controller.signal.aborted) return;
 
-        const apiError = isApiError(error)
+        const apiError = AppError.isApi(error)
           ? error
           : new ApiError("보안 토큰을 불러오지 못했습니다.", "CSRF_TOKEN_FETCH_FAILED");
         setError(apiError);

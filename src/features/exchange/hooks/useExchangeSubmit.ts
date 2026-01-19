@@ -61,8 +61,8 @@ export const useExchangeSubmit = ({ formState, quote, onSuccess }: UseExchangeSu
   }, []);
 
   const getCurrentRate = useCallback(
-    (currency: string) => ratesData?.data?.find((r) => r.currency === currency),
-    [ratesData?.data]
+    (currency: string) => ratesData?.find((r) => r.currency === currency),
+    [ratesData]
   );
 
   const submit = useCallback(

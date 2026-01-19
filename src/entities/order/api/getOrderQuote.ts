@@ -2,6 +2,7 @@
 
 import { API_ENDPOINTS } from "@/shared/config";
 import { fetchWithAuth } from "@/shared/lib/fetchWithAuth";
+import { ResponseParseError } from "@/shared/lib";
 import {
   OrderQuoteApiResponseSchema,
   type OrderQuoteRequest,
@@ -9,14 +10,7 @@ import {
   type OrderQuoteApiResponse,
 } from "../models/schema";
 
-interface GetOrderQuoteResult {
-  success: boolean;
-  data?: OrderQuoteResponse;
-  error?: string;
-  errorCode?: string;
-}
-
-export async function getOrderQuote(request: OrderQuoteRequest): Promise<GetOrderQuoteResult> {
+export async function getOrderQuote(request: OrderQuoteRequest): Promise<OrderQuoteResponse> {
   const params = new URLSearchParams({
     fromCurrency: request.fromCurrency,
     toCurrency: request.toCurrency,
@@ -27,15 +21,9 @@ export async function getOrderQuote(request: OrderQuoteRequest): Promise<GetOrde
     `${API_ENDPOINTS.order.getQuote}?${params}`
   );
 
-  if (!result.success) {
-    return { ...result, error: result.error || "견적 조회에 실패했습니다." };
-  }
+  const parsed = OrderQuoteApiResponseSchema.safeParse(result);
 
-  const parsed = OrderQuoteApiResponseSchema.safeParse(result.data);
+  if (!parsed.success) throw new ResponseParseError();
 
-  if (!parsed.success) {
-    return { success: false, error: "응답 데이터 형식이 올바르지 않습니다." };
-  }
-
-  return { success: true, data: parsed.data.data };
+  return parsed.data.data;
 }

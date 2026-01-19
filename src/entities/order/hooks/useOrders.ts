@@ -2,7 +2,8 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { getOrders } from "../api/getOrders";
-import { useAuthRedirect } from "@/shared/hooks/useAuthRedirect";
+import { useAuthRedirect } from "@/shared/hooks";
+import { shouldRetryQuery } from "@/shared/lib";
 
 export const orderKeys = {
   all: ["orders"] as const,
@@ -14,9 +15,10 @@ export const useOrders = () => {
     queryKey: orderKeys.list(),
     queryFn: getOrders,
     staleTime: 1000 * 60, // 1분
+    retry: shouldRetryQuery,
   });
 
-  useAuthRedirect({ errorCode: query.data?.errorCode });
+  useAuthRedirect({ error: query.error });
 
   return query;
 };
