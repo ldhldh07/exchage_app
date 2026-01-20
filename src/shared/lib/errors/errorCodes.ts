@@ -7,6 +7,12 @@ export const API_ERROR_CODES = {
   MISSING_PARAMETER: "MISSING_PARAMETER",
 } as const;
 
+// 내부 API Route 에러 코드
+export const INTERNAL_ERROR_CODES = {
+  RESPONSE_PARSE_ERROR: "RESPONSE_PARSE_ERROR",
+  UNKNOWN_ERROR: "UNKNOWN_ERROR",
+} as const;
+
 // 네트워크 에러 코드 (클라이언트 측)
 export const NETWORK_ERROR_CODES = {
   NETWORK_ERROR: "NETWORK_ERROR",
@@ -31,12 +37,14 @@ export const DOMAIN_ERROR_CODES = {
 // 전체 에러 코드
 export const ERROR_CODES = {
   ...API_ERROR_CODES,
+  ...INTERNAL_ERROR_CODES,
   ...NETWORK_ERROR_CODES,
   ...DOMAIN_ERROR_CODES,
 } as const;
 
 // 타입 정의
 export type ApiErrorCode = (typeof API_ERROR_CODES)[keyof typeof API_ERROR_CODES];
+export type InternalErrorCode = (typeof INTERNAL_ERROR_CODES)[keyof typeof INTERNAL_ERROR_CODES];
 export type NetworkErrorCode = (typeof NETWORK_ERROR_CODES)[keyof typeof NETWORK_ERROR_CODES];
 export type DomainErrorCode = (typeof DOMAIN_ERROR_CODES)[keyof typeof DOMAIN_ERROR_CODES];
 export type ErrorCode = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
@@ -58,6 +66,10 @@ export const ERROR_MESSAGES: Record<ErrorCode, string> = {
   UNAUTHORIZED: "로그인이 필요한 서비스입니다.",
   VALIDATION_ERROR: "요청 데이터가 이상해요.",
   MISSING_PARAMETER: "필수 요청 파라미터가 누락되었어요.",
+
+  // 내부 API Route 에러
+  RESPONSE_PARSE_ERROR: "응답 데이터 형식이 올바르지 않습니다.",
+  UNKNOWN_ERROR: "알 수 없는 오류가 발생했습니다.",
 
   // 네트워크 에러
   NETWORK_ERROR: "네트워크 오류가 발생했습니다.",
