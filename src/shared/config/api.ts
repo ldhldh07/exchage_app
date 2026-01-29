@@ -16,3 +16,10 @@ export const API_ENDPOINTS = {
     postOrder: `${API_BASE_URL}/orders`,
   },
 } as const;
+
+export const API_ROUTES = {
+  exchangeRates: "/api/exchange-rates",
+  wallets: "/api/wallets",
+  orders: "/api/orders",
+  orderQuote: "/api/orders/quote",
+} as const;

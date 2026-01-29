@@ -16,29 +16,56 @@
 
 ## 목차
 
-1. [배포 주소](#배포-주소)
-2. [로컬 실행 방법](#로컬-실행-방법)
-3. [주요 기능](#주요-기능)
-4. [기술 스택](#기술-스택)
-5. [FSD 아키텍처](#fsd-아키텍처)
-6. [폴더 구조](#폴더-구조)
-7. [핵심 로직 설명](#핵심-로직-설명)
-   - [FSD에서 entity와 feature 구분](#1-fsd에서-entity와-feature-구분)
-   - [Vite 대신 Next.js 선택 이유](#2-vite-대신-nextjs-선택-이유)
-   - [Server Action + TanStack Query 조합](#3-server-action--tanstack-query-조합)
-   - [실시간 환율 데이터 호출 전략](#4-실시간-환율-데이터-호출-전략)
-   - [Zod를 통한 런타임 API 검증](#5-zod를-통한-런타임-api-검증)
-   - [기본 컴포넌트 코드 구조](#6-기본-컴포넌트-코드-구조)
-   - [단방향 의존성과 추상화 레이어](#7-단방향-의존성과-추상화-레이어)
-8. [고민했던 부분](#고민했던-부분)
-   - [커스텀 훅 분리 기준](#1-커스텀-훅-분리-기준)
-   - [UI 분리 기준](#2-ui-분리-기준)
-   - [Context State/Actions 분리로 최적화](#3-context-stateactions-분리로-최적화)
-   - [상태 관리 - context + params](#4--상태-관리---context--params)
-   - [금융 서비스 에러 처리](#5-금융-서비스-에러-처리)
-9. [추가 설계 결정](#추가-설계-결정)
-   - [React Query를 이용한 깜빡임 방지](#react-query를-이용한-깜빡임-방지)
-   - [렌더링 최적화](#렌더링-최적화)
+- [환전 애플리케이션](#환전-애플리케이션)
+  - [소개](#소개)
+  - [목차](#목차)
+  - [배포 주소](#배포-주소)
+  - [로컬 실행 방법](#로컬-실행-방법)
+    - [요구사항](#요구사항)
+    - [설치 및 실행](#설치-및-실행)
+  - [주요 기능](#주요-기능)
+  - [기술 스택](#기술-스택)
+  - [FSD 아키텍처](#fsd-아키텍처)
+  - [폴더 구조](#폴더-구조)
+    - [파일명 컨벤션](#파일명-컨벤션)
+  - [핵심 로직 설명](#핵심-로직-설명)
+    - [1. FSD에서 entity와 feature 구분](#1-fsd에서-entity와-feature-구분)
+      - [기본 방향성](#기본-방향성)
+      - [UI 분류 기준](#ui-분류-기준)
+      - [훅 분류 기준](#훅-분류-기준)
+    - [2. Vite 대신 Next.js 선택 이유](#2-vite-대신-nextjs-선택-이유)
+      - [CORS 문제 해결](#cors-문제-해결)
+      - [httpOnly 쿠키 기반 인증](#httponly-쿠키-기반-인증)
+    - [3. Route Handlers + TanStack Query 조합](#3-route-handlers--tanstack-query-조합)
+      - [이슈 - 서버 액션 사용시](#이슈---서버-액션-사용시)
+        - [원인](#원인)
+        - [해결](#해결)
+    - [4. 실시간 환율 데이터 호출 전략](#4-실시간-환율-데이터-호출-전략)
+      - [캐시 설정](#캐시-설정)
+      - [환율 변동 감지](#환율-변동-감지)
+    - [5. Zod를 통한 런타임 API 검증](#5-zod를-통한-런타임-api-검증)
+      - [적용 방식](#적용-방식)
+    - [6. 기본 컴포넌트 코드 구조](#6-기본-컴포넌트-코드-구조)
+    - [7. 단방향 의존성과 추상화 레이어](#7-단방향-의존성과-추상화-레이어)
+  - [고민했던 부분](#고민했던-부분)
+    - [1. 커스텀 훅 분리 기준](#1-커스텀-훅-분리-기준)
+      - [모든 로직 작성](#모든-로직-작성)
+      - [최종 형태](#최종-형태)
+    - [2. UI 분리 기준](#2-ui-분리-기준)
+      - [Container-Presenter 패턴 적용](#container-presenter-패턴-적용)
+    - [3. Context State/Actions 분리로 최적화](#3-context-stateactions-분리로-최적화)
+      - [문제 상황](#문제-상황)
+      - [해결: Context 분리](#해결-context-분리)
+      - [결과](#결과)
+    - [4. 상태 관리 - context + params](#4-상태-관리---context--params)
+    - [5. 금융 서비스 에러 처리](#5-금융-서비스-에러-처리)
+      - [조회 vs 뮤테이션 에러 처리](#조회-vs-뮤테이션-에러-처리)
+      - [에러 분류 체계](#에러-분류-체계)
+      - [인증 에러 자동 리다이렉트](#인증-에러-자동-리다이렉트)
+  - [추가 설계 결정](#추가-설계-결정)
+    - [React Query를 이용한 깜빡임 방지](#react-query를-이용한-깜빡임-방지)
+    - [렌더링 최적화](#렌더링-최적화)
+      - [React.memo로 무한 스크롤 최적화](#reactmemo로-무한-스크롤-최적화)
 
 ---
 
@@ -114,7 +141,7 @@ pnpm dev
 - **Styling**: Tailwind CSS v4
 - **서버 상태**: TanStack Query
 - **폼 관리**: React Hook Form + Zod
-- **서버 통신**: Server Actions
+- **서버 통신**: Route Handlers (조회) + Server Actions (mutation)
 - **인증**: httpOnly Cookie + CSRF Token
 
 ---
@@ -140,7 +167,11 @@ src/
 │   │   ├── page.tsx       # 환전 메인
 │   │   └── history/       # 환전 내역
 │   ├── login/             # 로그인 페이지
-│   └── api/csrf/          # CSRF 토큰 발급
+│   └── api/               # Route Handlers (BFF)
+│       ├── csrf/          # CSRF 토큰 발급
+│       ├── exchange-rates/# 환율 조회
+│       ├── wallets/       # 지갑 조회
+│       └── orders/        # 주문 조회/견적
 │
 ├── widgets/               # 페이지 조합 컴포넌트
 │   ├── exchange-form/     # 환전 폼 위젯
@@ -223,7 +254,7 @@ Container-Presenter 패턴과 유사합니다. features의 UI가 Container 역�
 ```tsx
 // features/exchange/ui/ExchangeFormContainer.tsx (Container)
 function ExchangeFormContent() {
-  const { quote, isPending, isValid, serverError, retryCount, handleSubmit } = 
+  const { quote, isPending, isValid, serverError, retryCount, handleSubmit } =
     useExchangeFormContext();
 
   return (
@@ -296,23 +327,110 @@ httpOnly 쿠키는 JavaScript에서 접근할 수 없어 XSS 공격으로부터 
 ```ts
 // Server Action에서 httpOnly 쿠키 설정
 cookieStore.set("accessToken", token, {
-  httpOnly: true,  // JavaScript 접근 차단
-  secure: true,    // HTTPS 전용
+  httpOnly: true, // JavaScript 접근 차단
+  secure: true, // HTTPS 전용
   sameSite: "lax", // CSRF 방지
 });
 ```
 
-
-
 ---
 
-### 3. Server Action + TanStack Query 조합
+### 3. Route Handlers + TanStack Query 조합
 
-Server Action만 쓰면 캐싱이나 로딩 상태를 직접 구현해야 하고, TanStack Query만 쓰면 httpOnly 쿠키에 접근할 수 없습니다.
+TanStack Query만 쓰면 httpOnly 쿠키에 접근할 수 없고, 직접 외부 API를 호출하면 CORS 문제가 발생합니다.
 
-그래서 둘을 조합했습니다
-- TanStack Query: 캐싱, 자동 갱신(refetchInterval), 로딩/에러 상태 관리
-- Server Action: httpOnly 쿠키 접근, 서버에서 API 호출
+그래서 **Route Handlers를 BFF(Backend For Frontend)로 사용**합니다:
+
+```
+Client (useQuery)
+    ↓ fetch('/api/wallets')
+Route Handler (app/api/wallets/route.ts)
+    ↓ cookies() → 토큰 읽기
+    ↓ fetch(외부 API)
+    ↓ JSON 응답 반환
+Client
+    ↓ 데이터 사용 또는 에러 처리
+```
+
+- **TanStack Query**: 캐싱, 자동 갱신(refetchInterval), 로딩/에러 상태 관리
+- **Route Handlers**: httpOnly 쿠키 접근, CORS 우회, 인증 에러 시 쿠키 삭제
+
+#### 이슈 - 서버 액션 사용시
+
+처음에는 `useQuery({ queryFn: () => serverAction() })` 패턴을 사용했으나, **인증 만료 시 리다이렉트가 작동하지 않는 문제**가 있었습니다.
+
+**문제 패턴 1: 서버 컴포넌트 렌더링 에러**
+
+Server Action에서 에러를 throw하면, useQuery가 처리하기 전에 서버 컴포넌트 렌더링 자체가 실패합니다.
+
+```
+토큰 만료 → Server Action에서 UnauthorizedError throw
+    ↓
+서버 컴포넌트 렌더링 실패
+    ↓
+"An error occurred in the Server Components render" 메시지 표시
+    ↓
+리다이렉트 로직 실행 안 됨
+```
+
+**문제 패턴 2: NEXT_REDIRECT 에러**
+
+Server Action 내부에서 `redirect('/login')`를 호출하면 Next.js가 `NEXT_REDIRECT` 예외를 throw합니다. 이 예외는 Next.js 내부에서 catch되어야 실제 navigation으로 변환되는데, TanStack Query의 `queryFn` 컨텍스트에서는 TanStack Query가 먼저 catch해버려서 일반 에러로 처리됩니다.
+
+```
+토큰 만료 → Server Action에서 redirect('/login') 호출
+    ↓
+Next.js가 NEXT_REDIRECT 예외 throw
+    ↓
+useQuery가 이를 일반 에러로 catch
+    ↓
+"NEXT_REDIRECT" 에러 메시지 표시, 실제 리다이렉트 안 됨
+```
+
+##### 원인
+
+두 패턴 모두 **서버에서 예외를 throw**하는 것이 문제였습니다. 에러 throw는 서버가 아닌 클라이언트에서 발생해야 합니다.
+
+Server Action 컨텍스트에서 throw된 예외는 TanStack Query나 Next.js가 의도대로 처리하지 못합니다.
+
+##### 해결
+
+Route Handlers는 예외를 throw하지 않고 **JSON 응답을 반환**합니다. 
+
+클라이언트가 이 JSON을 받아서 `errorCode`를 확인하고 직접 리다이렉트할 수 있습니다.
+
+Route Handlers가 이 문제를 해결할 수 있는 이유:
+
+1. 표준 HTTP Response 형식
+   - `NextResponse.json(body, { status })`로 JSON body + HTTP 상태 코드를 명시적으로 반환
+   - 클라이언트는 일반적인 `fetch()` 응답으로 받아서 자유롭게 처리 가능
+   - Server Action처럼 Next.js 전용 프로토콜이 아닌 표준 REST API 형태
+
+2. 서버-클라이언트 경계가 명확
+   - Route Handler는 순수 서버 코드, 클라이언트와 HTTP로만 통신
+   - Server Action은 서버-클라이언트 경계가 모호 (함수처럼 호출하지만 실제로는 서버 실행)
+   - 명확한 경계 덕분에 각자의 책임이 분명함
+
+3. 관심사 분리
+   - 서버 (Route Handler): 인증 검증, 외부 API 호출, 쿠키 삭제, 응답 **전달** (프록시 역할)
+   - 데이터 레이어 (apiClient, errors): 응답 해석, 에러 **처리**, 리다이렉트 판단
+   - UI 레이어: 처리된 에러 상태/메시지 **표시**
+   - 에러 처리와 리다이렉트는 데이터 레이어의 책임으로 자연스럽게 분리됨
+
+```typescript
+// API Route (서버) - throw 대신 JSON 반환, 서버의 책임만 수행
+return NextResponse.json(
+  { success: false, errorCode: "UNAUTHORIZED", message: "인증이 필요합니다." },
+  { status: 401 }
+);
+
+// apiClient (클라이언트) - 응답 해석 후 리다이렉트, 클라이언트의 책임
+if (result.errorCode === "UNAUTHORIZED") {
+  window.location.href = "/login";
+}
+```
+
+부가적으로 HTTP 상태 코드(401, 500 등)를 명시적으로 반환할 수 있어 네트워크 탭에서 디버깅하기 쉽고, 모니터링 도구와의 연동에도 유리합니다.
 
 ---
 
@@ -330,16 +448,14 @@ export const useExchangeRates = () => {
   return useQuery({
     queryKey: exchangeRateKeys.latest(),
     queryFn: getExchangeRates,
-    staleTime: 1000 * 60,           // 1분간 fresh 상태
-    refetchInterval: 1000 * 60,     // 1분마다 자동 갱신
+    staleTime: 1000 * 60, // 1분간 fresh 상태
+    refetchInterval: 1000 * 60, // 1분마다 자동 갱신
     retry: shouldRetryQuery,
   });
 };
 ```
 
-
-
-#### 환율 변동 감지 
+#### 환율 변동 감지
 
 1분 폴링으로 최대한의 최신성을 보장했지만 그럼에도 완전한 최신 데이터가 아니기에 생기는 문제가 있습니다.
 
@@ -361,8 +477,6 @@ if (result.errorCode === ERROR_CODES.EXCHANGE_RATE_MISMATCH) {
 }
 ```
 
-
-
 ---
 
 ### 5. Zod를 통한 런타임 API 검증
@@ -370,6 +484,7 @@ if (result.errorCode === ERROR_CODES.EXCHANGE_RATE_MISMATCH) {
 외부 API 응답은 신뢰할 수 없는 영역입니다. TypeScript 타입은 컴파일 타임에만 검증되니까 런타임에 뭐가 들어올지 모릅니다.
 
 Zod로 런타임 검증을 하면:
+
 - 백엔드 스펙이 바뀌었을 때 즉시 감지 가능
 - 실제 검증 기반의 타입 안전성
 - 금융 서비스에서 잘못된 데이터가 UI에 표시되는 걸 방지
@@ -380,7 +495,7 @@ Zod로 런타임 검증을 하면:
 // API 함수에서 응답 검증
 const parsed = ExchangeRateListResponseSchema.safeParse(result);
 if (!parsed.success) {
-  throw new ResponseParseError();  // 스키마 불일치 시 명확한 에러
+  throw new ResponseParseError(); // 스키마 불일치 시 명확한 에러
 }
 return parsed.data.data;
 ```
@@ -417,6 +532,7 @@ export const ToggleFavoriteButton = ({ location }: Props) => {
 ```
 
 **핵심:**
+
 - 커스텀 훅으로 데이터/액션 추상화
 - 컴퓨티드 밸류로 파생 상태 명시
 - 이벤트 핸들러에 비즈니스 로직 캡슐화
@@ -428,8 +544,6 @@ export const ToggleFavoriteButton = ({ location }: Props) => {
 
 FSD에서는 하위 레이어에서 상위 레이어를 import하는 의존성 역전을 금지합니다.
 
-
-
 의존성을 역전하지 않도록 하다 보면 자연스럽게 단계적인 추상화 레이어 구성이 됩니다.
 
 - 단방향 데이터 흐름으로 예측 가능한 코드 작성이 가능
@@ -437,7 +551,7 @@ FSD에서는 하위 레이어에서 상위 레이어를 import하는 의존성 �
 
 이 요소를 강제하기 위해 eslint의 플러그인을 사용했습니다.
 
-- 절대경로와 index를 이용한 경로 
+- 절대경로와 index를 이용한 경로
 
 ---
 
@@ -456,15 +570,16 @@ export const ExchangeForm = () => {
   const { data: wallets } = useWallets();
   const [currency, setCurrency] = useState("USD");
   const [amount, setAmount] = useState("");
-  
-  const currentRate = rates?.find(r => r.currency === currency);
+
+  const currentRate = rates?.find((r) => r.currency === currency);
   const quote = amount ? calculateQuote(amount, currentRate) : null;
-  
+
   // ...폼 로직이 컴포넌트에 노출됨
 };
 ```
 
 문제점:
+
 - 컴포넌트가 세부 구현(How)에 의존
 - 테스트하기 어려움
 - 재사용성 낮음
@@ -475,7 +590,7 @@ export const ExchangeForm = () => {
 // features/exchange/ui/ExchangeFormContainer.tsx
 export function ExchangeFormContent() {
   const { quote, isPending, handleSubmit } = useExchangeFormContext();
-  
+
   return <OrderForm onSubmit={handleSubmit} />;
 }
 ```
@@ -514,9 +629,9 @@ export function AmountInput({ currency, value, onChange, error }: Props) {
     <div>
       <label className="text-sm text-gray-500">환전할 금액</label>
       <div className="flex items-center gap-2">
-        <input 
-          value={value} 
-          onChange={e => onChange(e.target.value)}
+        <input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
           className="border rounded px-3 py-2"
         />
         <span className="text-gray-700">{currency}</span>
@@ -589,7 +704,7 @@ const actions = useMemo<ExchangeFormActions>(
     setAmount: (...args) => actionsRef.current.setAmount(...args),
     handleSubmit: () => actionsRef.current.handleSubmit(),
   }),
-  [] // 빈 의존성 → 절대 변경되지 않음
+  [], // 빈 의존성 → 절대 변경되지 않음
 );
 ```
 
@@ -605,13 +720,11 @@ function BuySellToggle() {
 
 ---
 
-### 4.  상태 관리 - context + params
+### 4. 상태 관리 - context + params
 
 환전하기 상태 및 액션 관리는 useContext를 사용하여 의존성을 주입했습니다.
 
--  부모 컴포넌트에 모두 비즈니스 로직을 작성후 prop할경우 복잡도가 높아집니다.
-
-   
+- 부모 컴포넌트에 모두 비즈니스 로직을 작성후 prop할경우 복잡도가 높아집니다.
 
 그중 currency와 orderType은 url의 파라미터로 관리했습니다.
 
@@ -633,26 +746,30 @@ function BuySellToggle() {
 
 #### 조회 vs 뮤테이션 에러 처리
 
-둘 다 Server Action이지만 에러 처리 방식이 다릅니다.
+조회는 Route Handlers, 뮤테이션은 Server Action을 사용하며 에러 처리 방식이 다릅니다.
 
-**조회 (useQuery 경유)**
+**조회 (Route Handlers + useQuery)**
+
 ```tsx
-// Server Action에서 throw → React Query가 query.error로 관리
-const query = useQuery({ queryFn: getExchangeRates });
-if (query.error) { /* 처리 */ }
+// Route Handler가 JSON 에러 반환 → apiClient가 감지 → 401이면 리다이렉트
+const query = useQuery({
+  queryFn: () => apiClient("/api/exchange-rates"),
+});
 ```
 
-**뮤테이션 (직접 호출)**
+**뮤테이션 (Server Action 직접 호출)**
+
 ```tsx
 // Server Action에서 try-catch → 결과 객체 반환
 const result = await createOrderAction(request);
-if (!result.success) { setServerError(result.error); }
+if (!result.success) {
+  setServerError(result.error);
+}
 ```
 
 뮤테이션에서 throw 안 하는 이유:
 
 - useMutation을 사용하는 대신 서버 액션에서 권장되는 useTransition을 사용
-
 - Server Action에서 throw된 Error는 serialize되면서 `instanceof` 체크 불가
 - 커스텀 프로퍼티(`code`, `reason`) 손실
 
@@ -671,12 +788,14 @@ BaseError
 └── ResponseParseError (응답 파싱 실패)
 ```
 
-에러 정책에 따라 에러 처리를 중앙에서 관리했습니다. 
+에러 정책에 따라 에러 처리를 중앙에서 관리했습니다.
+책임은 레이어별로 명확하게 분리했습니다.
 
-- 에러 처리를 ui 레이어가 아닌 데이터 레이어에서 관리
-- ui의 책임은 에러 상태와 메세지만 받아서 출력하는 것
+- 서버 (Route Handler): 외부 API 응답 전달 (프록시 역할)
+- 데이터 레이어 (apiClient, errors): 에러 해석 및 처리 (errorCode → AppError 생성, 리다이렉트 판단)
+- UI 레이어: 처리된 에러 상태/메시지 표시
 
- 각 ui 컴포넌트에 에러 처리 코드가 분산되어 있지 않도록 했습니다
+에러 해석/처리 로직은 데이터 레이어 `shared/lib/errors`에 중앙 집중화하여, 각 UI 컴포넌트에 에러 처리 코드가 분산되어 있지 않도록 했습니다
 
 #### 인증 에러 자동 리다이렉트
 
@@ -685,12 +804,21 @@ BaseError
 토큰이 만료될 경우 로그인 페이지로 리다이렉트했습니다.
 
 ```tsx
-// useAuthRedirect 훅 - 인증 에러 발생 시 자동으로 로그인 페이지로 이동
-useEffect(() => {
-  if (AppError.isUnauthorized(error)) {
-    router.replace(ROUTES.login);
-  }
-}, [error, router]);
+// src/shared/lib/apiClient.ts - 401 응답 시 자동 리다이렉트
+if (result.errorCode === "UNAUTHORIZED") {
+  window.location.href = "/login";
+  throw new Error(result.message);
+}
+```
+
+Route Handler에서는 401 응답 시 서버 측 쿠키도 함께 삭제합니다:
+
+```tsx
+// src/app/api/wallets/route.ts
+if (response.status === 401 || data.code === "UNAUTHORIZED") {
+  cookieStore.delete("accessToken");
+  cookieStore.delete("memberId");
+}
 ```
 
 ---
@@ -701,13 +829,13 @@ useEffect(() => {
 
 사용자가 금액을 변경할 때 재요청을 해서 캐시값이 무효화되고 반환값을 받는동안 값이 깜빡일 수 있습니다.
 
- placeholderData를 통해 이전 결과를 유지하여 UI 깜빡임을 방지합니다.
+placeholderData를 통해 이전 결과를 유지하여 UI 깜빡임을 방지합니다.
 
 ```tsx
 const query = useQuery({
   queryKey: orderQuoteKeys.quote(orderType, quoteParams),
   queryFn: () => getOrderQuote(quoteParams),
-  placeholderData: lastQuoteRef.current ?? undefined,  // 이전 값 유지
+  placeholderData: lastQuoteRef.current ?? undefined, // 이전 값 유지
 });
 ```
 
@@ -734,4 +862,3 @@ const OrderHistoryRow = memo(function OrderHistoryRow({ order }: Props) {
 ```
 
 무한 스크롤로 데이터가 추가될 때 기존 행들의 불필요한 리렌더링을 방지합니다.
-
