@@ -8,6 +8,6 @@ export const useOrders = () => {
   return useQuery({
     queryKey: orderKeys.list(),
     queryFn: getOrders,
-    staleTime: 1000 * 30, // 30초
+    staleTime: 1000 * 30,
   });
 };

@@ -9,7 +9,7 @@ export const useWallets = () => {
   return useQuery({
     queryKey: walletKeys.summary(),
     queryFn: getWallets,
-    staleTime: 1000 * 30, // 30초
+    staleTime: 1000 * 30,
     select: mapWalletResponse,
   });
 };

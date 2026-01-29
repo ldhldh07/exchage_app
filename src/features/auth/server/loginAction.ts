@@ -48,5 +48,6 @@ export async function loginAction(_prevState: LoginState, formData: FormData): P
 
   cookieStore.delete("csrfToken");
 
-  redirect(ROUTES.home);
+  const from = (formData.get("from") as string) || ROUTES.home;
+  redirect(from);
 }

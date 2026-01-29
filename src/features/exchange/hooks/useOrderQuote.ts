@@ -45,7 +45,7 @@ export const useOrderQuote = (formState: ExchangeFormData) => {
     queryKey: orderQuoteKeys.quote(orderType, quoteParams!),
     queryFn: () => getOrderQuote(quoteParams!),
     enabled: quoteParams !== null,
-    staleTime: 1000 * 30, // 30초
+    staleTime: 1000 * 30,
     placeholderData: lastQuoteRef.current ?? undefined,
   });
 

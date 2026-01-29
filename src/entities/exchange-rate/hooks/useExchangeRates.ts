@@ -9,8 +9,8 @@ export const useExchangeRates = () => {
   return useQuery({
     queryKey: exchangeRateKeys.latest(),
     queryFn: getExchangeRates,
-    staleTime: 1000 * 60, // 1분
-    refetchInterval: 1000 * 60, // 1분마다 자동 갱신
+    staleTime: 1000 * 60,
+    refetchInterval: 1000 * 60,
     select: mapExchangeRateResponse,
   });
 };

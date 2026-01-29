@@ -20,7 +20,8 @@ export async function apiClient<T>(url: string, options?: RequestInit): Promise<
     const error = AppError.fromCode(result.errorCode, result.message, response.status);
 
     if (AppError.isUnauthorized(error)) {
-      window.location.href = ROUTES.login;
+      const from = window.location.pathname + window.location.search;
+      window.location.href = `${ROUTES.login}?from=${encodeURIComponent(from)}`;
     }
 
     throw error;
@@ -28,3 +29,10 @@ export async function apiClient<T>(url: string, options?: RequestInit): Promise<
 
   return result.data;
 }
+
+export const API_ROUTES = {
+  exchangeRates: "/api/exchange-rates",
+  wallets: "/api/wallets",
+  orders: "/api/orders",
+  orderQuote: "/api/orders/quote",
+} as const;
